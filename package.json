@@ -1,0 +1,14 @@
+{
+  "name": "muss-rumble",
+  "version": "1.1.0",
+  "description": "some not common utils",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "binary"
+  ],
+  "author": "EduRomoGO",
+  "license": "ISC"
+}
