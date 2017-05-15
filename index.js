@@ -18,7 +18,7 @@ module.exports = {
 
 			const fileObj = JSON.parse(fileData); //now it an object
 			fileObj.data.push(jsonData); //add some data
-			const json = JSON.stringify(fileObj); //convert it back to json
+			const json = JSON.stringify(fileObj, null, 4); //convert it back to json
 			fs.writeFile(fileUrl, json, 'utf8', function(){ console.log('updated file with!');}); // write it back 
 		});
 	}
