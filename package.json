@@ -10,5 +10,7 @@
     "binary"
   ],
   "author": "EduRomoGO",
-  "license": "ISC"
+  "license": "ISC",
+
+  "repository": "https://github.com/EduRomoGO/muss-rumble.git"
 }
