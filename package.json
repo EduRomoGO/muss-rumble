@@ -1,6 +1,6 @@
 {
   "name": "muss-rumble",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "some not common utils",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,5 @@
   ],
   "author": "EduRomoGO",
   "license": "ISC",
-
   "repository": "https://github.com/EduRomoGO/muss-rumble.git"
 }
