@@ -1,10 +1,9 @@
 'use strict';
 
-module.exports = {
+const main = {
 
 	// transforms a decimal number to binary
 	dec2bin: function (dec){
-		console.log('dec2bin');
 		if (dec > 0) { return '0' + (dec >>> 0).toString(2); }
 	    else { return (dec >>> 0).toString(2); }
 	},
@@ -24,3 +23,7 @@ module.exports = {
 	}
 
 };
+
+module.exports.dec2bin = main.dec2bin;
+module.exports.updateJsonFile = main.updateJsonFile;
+module.exports.encrypter = require('./encrypter.js');
