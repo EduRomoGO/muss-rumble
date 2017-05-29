@@ -11,5 +11,8 @@
   ],
   "author": "EduRomoGO",
   "license": "ISC",
-  "repository": "https://github.com/EduRomoGO/muss-rumble.git"
+  "repository": "https://github.com/EduRomoGO/muss-rumble.git",
+  "dependencies": {
+    "crypto-js": "^3.1.9-1"
+  }
 }
