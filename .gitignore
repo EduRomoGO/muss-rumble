@@ -86,3 +86,5 @@ borrador.txt
 
 # Ignore .vscode Folder
 .vscode
+
+npm-debug.log
