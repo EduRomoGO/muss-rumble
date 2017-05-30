@@ -2,18 +2,22 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const MongoUrl = require('./MongoUrl.js');
-const mongoUrl = MongoUrl.get();
+const url = MongoUrl.get();
 
  function showSuccessMsg () {
-    console.log("Connected successfully to mongodb url: ", mongoUrl);
+    console.log(`Connected successfully to ${url}`);
 }
 
 module.exports = {
+
+    url,
+
     connect: function () {
-        return MongoClient.connect(mongoUrl);
+        return MongoClient.connect(url);
     },
 
     connectionSuccess: function () {
         showSuccessMsg();
     }
+
 };
