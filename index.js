@@ -27,4 +27,4 @@ const main = {
 module.exports.dec2bin = main.dec2bin;
 module.exports.updateJsonFile = main.updateJsonFile;
 module.exports.encrypter = require('./encrypter.js');
-module.exports.mongoUtil = require('/mongo/mongoUtil.js');
+module.exports.mongoUtil = require('./mongo/mongoUtil.js');
