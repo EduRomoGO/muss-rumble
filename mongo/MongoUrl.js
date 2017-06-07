@@ -1,7 +1,6 @@
 'use strict';
 
 var camelCase = require('camel-case');
-const minimist = require('minimist');
 
 function getAppName () {
     const path = process.cwd();
@@ -24,25 +23,19 @@ function getDevUrl () {
     return mongoUrlBase + mongoUrlDBName;
 }
 
-function getUrl () {
-    var argv = minimist(process.argv.slice(2));
-	const devMode = argv.env === 'dev';
-	const prodMode = process.env.PROD === 'prod';
-    const testMode = process.env.NODE_ENV === 'test';
-	let url;
+const environmentsUrls = {
+    test: getDevUrl() + 'Test',
+    development: getDevUrl(),
+    production: process.env.MONGODB_URI
+};
 
-    if (testMode) {
-		url = getDevUrl() + 'Test';
-    } else if (devMode) {
-		url = getDevUrl();
-	} else if (prodMode){
-		url = process.env.MONGODB_URI;
-	} else {
-        console.log('Not environment specified, please pass arg to inform the env: Ex: node app.js --env=dev');
+function getUrl () {
+    if (Object.keys(environmentsUrls).includes(process.env.NODE_ENV)) {
+        return environmentsUrls[process.env.NODE_ENV];
+    } else {
+        console.error(`Not environment specified, NODE_ENV is not one of ${Object.keys(environmentsUrls)}`);
         process.exit();
     }
-
-	return url;
 }
 
 module.exports = {
