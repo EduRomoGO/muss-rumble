@@ -15,17 +15,17 @@ describe('mongoUrl module get method should return the connection url based on t
 
     describe('and on current env (test/development/production)', function() {
 
-        it.only('in test env, it returns test url', function() {
+        it('in test env, it returns test url', function() {
             process.env.NODE_ENV = 'test';
             mongoUrl.get().should.equal('mongodb://localhost:27017/mussRumbleTest');
         });
 
-        it.only('in development env, it returns development url', function() {
+        it('in development env, it returns development url', function() {
             process.env.NODE_ENV = 'development';
             mongoUrl.get().should.equal('mongodb://localhost:27017/mussRumble');
         });
 
-        it.only('in production env, it returns production url', function() {
+        it('in production env, it returns production url', function() {
             process.env.NODE_ENV = 'production';
             const prodUrl = 'fakeProductionUrl';
             process.env.MONGODB_URI = prodUrl;
