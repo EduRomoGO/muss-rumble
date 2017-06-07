@@ -28,9 +28,12 @@ function getUrl () {
     var argv = minimist(process.argv.slice(2));
 	const devMode = argv.env === 'dev';
 	const prodMode = process.env.PROD === 'prod';
+    const testMode = process.env.NODE_ENV === 'test';
 	let url;
 
-	if (devMode) {
+    if (testMode) {
+		url = getDevUrl() + 'Test';
+    } else if (devMode) {
 		url = getDevUrl();
 	} else if (prodMode){
 		url = process.env.MONGODB_URI;
