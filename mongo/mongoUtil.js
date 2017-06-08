@@ -28,7 +28,6 @@ function connectionSuccess () {
     showSuccessMsg();
 }
 
-
  function showSuccessMsg () {
     console.log(`Connected successfully to ${getUrl()}`);
 }

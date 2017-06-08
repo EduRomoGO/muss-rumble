@@ -16,35 +16,62 @@ function resetEnv() {
     process.env.NODE_ENV = 'test';
 }
 
+function closeConnection() {
+    mongoUtil.getDb().close();
+}
+
 describe('mongoUtil', function() {
 
-    afterEach(resetEnv);
+    describe('connect method', function() {
 
-    it('connect method connects to test db if running on test env', function (done) {
-        setEnv('test');
+        afterEach(function () {
+            resetEnv();
+            closeConnection();
+        });
 
-        mongoUtil.connect().then(function(db) {
-            expect(db.s.databaseName).to.equal('mussRumbleTest');
-        })
-        .then(() => done(), done);
+        it('connects to test db if running on test env', function (done) {
+            setEnv('test');
+
+            mongoUtil.connect().then(function(db) {
+                expect(db.s.databaseName).to.equal('mussRumbleTest');
+            })
+            .then(() => done(), done);
+        });
+
+        it('connects to development db if running on development env', function (done) {
+            setEnv('development');
+
+            mongoUtil.connect().then(function(db) {
+                expect(db.s.databaseName).to.equal('mussRumble');
+            })
+            .then(() => done(), done);
+        });
+
+        it('connects to production db if running on production env', function (done) {
+            setEnv('production');
+
+            mongoUtil.connect().then(function(db) {
+                expect(db.s.databaseName).to.equal('mussRumbleProduction');
+            })
+            .then(() => done(), done);
+        });
+
     });
 
-    it('connect method connects to development db if running on development env', function (done) {
-        setEnv('development');
+    describe('getDb method', function () {
+        
+        afterEach(function () {
+            closeConnection();
+        });
 
-        mongoUtil.connect().then(function(db) {
-            expect(db.s.databaseName).to.equal('mussRumble');
-        })
-        .then(() => done(), done);
-    });
+        it('should return the db if the app has established a connection', function (done) {
+            
+            mongoUtil.connect().then(function(db) {
+                mongoUtil.getDb().s.databaseName.should.equal('mussRumbleTest');
+            })
+            .then(() => done(), done);
+        });
 
-    it('connect method connects to production db if running on production env', function (done) {
-        setEnv('production');
-
-        mongoUtil.connect().then(function(db) {
-            expect(db.s.databaseName).to.equal('mussRumbleProduction');
-        })
-        .then(() => done(), done);
     });
 
 });
