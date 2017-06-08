@@ -10,11 +10,22 @@ const should = chai.should();
 
 console.info(`Tests running on ${process.env.NODE_ENV} env`);
 
+function setEnv(env) {
+    process.env.NODE_ENV = env;
+}
+
+function resetEnv() {
+    process.env.NODE_ENV = 'test';
+}
+
 describe('mongoUtil', function() {
 
-    it.only('aaaa', function (done) {
-        return mongoUtil.connect().then(function(db) {
-            expect(db).to.equal('sathoeu');
+    afterEach(resetEnv);
+
+    it.only('connect method connects to test db if running on test env', function (done) {
+        setEnv('test');
+        mongoUtil.connect().then(function(db) {
+            expect(db.s.databaseName).to.equal('mussRumbleTest');
         })
         .then(() => done(), done);
     });
