@@ -4,7 +4,7 @@
   "description": "some not common utils",
   "main": "index.js",
   "scripts": {
-    "test": "env NODE_ENV=test MONGODB_URI=fakeProductionUrl mocha --recursive"
+    "test": "env NODE_ENV=test MONGODB_URI=mongodb://localhost:27017/mussRumbleProduction mocha --recursive"
   },
   "keywords": [
     "binary"

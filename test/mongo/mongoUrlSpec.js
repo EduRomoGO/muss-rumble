@@ -27,7 +27,7 @@ describe('mongoUrl module get method should return the connection url based on t
 
         it('in production env, it returns production url', function() {
             process.env.NODE_ENV = 'production';
-            const prodUrl = 'fakeProductionUrl';
+            const prodUrl = 'mongodb://localhost:27017/mussRumbleProduction';
             process.env.MONGODB_URI = prodUrl;
 
             mongoUrl.get().should.to.equal(prodUrl);
