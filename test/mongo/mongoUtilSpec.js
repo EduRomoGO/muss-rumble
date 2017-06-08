@@ -8,9 +8,6 @@ chai.use(require('chai-as-promised'));
 const expect = chai.expect;
 const should = chai.should();
 
-console.info(`Tests running on ${process.env.NODE_ENV} env`);
-console.info(`Mongodb production fake uri stated in npm test script: ${process.env.MONGODB_URI}`);
-
 function setEnv(env) {
     process.env.NODE_ENV = env;
 }
