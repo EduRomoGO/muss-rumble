@@ -65,11 +65,17 @@ describe('mongoUtil', function() {
         });
 
         it('should return the db if the app has established a connection', function (done) {
-            
             mongoUtil.connect().then(function(db) {
                 mongoUtil.getDb().s.databaseName.should.equal('mussRumbleTest');
             })
             .then(() => done(), done);
+        });
+
+        xit('should return an error if no connection has been established', function () {
+            const connectionError = {
+                msg: 'mongodb connection not found'
+            };
+            mongoUtil.getDb().should.equal(connectionError);
         });
 
     });
