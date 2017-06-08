@@ -5,7 +5,11 @@ const MongoUrl = require('./MongoUrl.js');
 let DB;
 
 function getDb() {
-    return DB;
+    if (DB) return DB;
+    else {
+        console.error('No DB connection is present');
+        process.exit();
+    }
 }
 
 function getUrl () {
