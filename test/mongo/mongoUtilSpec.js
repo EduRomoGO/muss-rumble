@@ -80,4 +80,31 @@ describe('mongoUtil', function() {
 
     });
 
+    describe('loadFixtures', function() {
+
+        it.only('should return an error if no fixtures data is found', function () {
+            // function getFixtures () {
+            //     return undefined;
+            // };
+
+            // const fixtures = getFixtures();
+            const noFixturesFoundErr = {
+                msg: 'No fixtures found'
+            };
+
+            function manageError (err) {
+                err.should.equal(noFixturesFoundErr);
+            }
+
+            mongoUtil.loadFixtures()
+                .then(() => done())
+                .catch(manageError);
+        });
+
+        xit('should load fixtures data to test db', function () {
+            
+        });
+
+    });
+
 });
