@@ -103,8 +103,8 @@ describe('mongoUtil', function() {
 
 function getFixtures() {
     const path = process.cwd();
-    const fixturesPath = path + '/test/fixtures/loadFixtures.json';
-    const loadFixtures = require(fixturesPath);
+    const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
+    const loadFixtures = require(loadFixturesPath);
 
     return loadFixtures.collections.bets;
 }
@@ -114,7 +114,7 @@ function getFixtures() {
             const fixtures = getFixtures();
             
             mongoUtil.connect().then(function(db) {
-                mongoUtil.loadFixtures().then(function() {
+                mongoUtil.loadFixtures(db, done).then(function() {
                     db.collection(collection).find({}).then.toArray().then((bets) => {
                         bets.length.should.equal(fixtures.length);
                     });

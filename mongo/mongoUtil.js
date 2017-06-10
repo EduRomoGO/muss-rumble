@@ -2,6 +2,8 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const MongoUrl = require('./MongoUrl.js');
+// import each from 'async/each';
+const async = require('async');
 let DB;
 
 function getDb() {
@@ -36,10 +38,36 @@ function connectionSuccess () {
     console.log(`Connected successfully to ${getUrl()}`);
 }
 
-function loadFixtures () {
-    return Promise.reject({
-                msg: 'No fixtures found'
+function getFixtures() {
+    const path = process.cwd();
+    const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
+    const loadFixtures = require(loadFixturesPath);
+
+    return loadFixtures;
+}
+
+function loadFixtures (db, done) {
+    const loadFixturesJson = getFixtures();
+
+    // loadFixturesJson.collections.bets.forEach(function (bet) {
+    //     db.collection('bets').insertOne(bet);
+    // });
+
+    // return Promise.reject({
+    //             msg: 'No fixtures found'
+    //         });
+    
+    return new Promise ((resolve, reject) => {
+        const collections = Object.keys(loadFixturesJson.collections);
+
+        async.each(collections, function(collection, cb) {
+            db.createCollection(collection, function(err, collection) {
+                if (err) return done(err);
+                collection.insert(loadFixturesJson.collections[collection], cb);
             });
+        }, done);
+
+    });
 }
 
 module.exports = {
