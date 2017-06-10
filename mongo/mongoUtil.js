@@ -37,7 +37,9 @@ function connectionSuccess () {
 }
 
 function loadFixtures () {
-
+    return Promise.reject({
+                msg: 'No fixtures found'
+            });
 }
 
 module.exports = {
