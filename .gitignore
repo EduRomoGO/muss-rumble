@@ -84,7 +84,4 @@ borrador.txt
 # Ignore bower components
 /bower_components
 
-# Ignore .vscode Folder
-.vscode
-
 npm-debug.log
