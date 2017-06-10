@@ -13,6 +13,7 @@
   "license": "ISC",
   "repository": "https://github.com/EduRomoGO/muss-rumble.git",
   "dependencies": {
+    "async": "^2.4.1",
     "camel-case": "^3.0.0",
     "chai": "^4.0.2",
     "chai-as-promised": "^6.0.0",
