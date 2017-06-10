@@ -36,9 +36,14 @@ function connectionSuccess () {
     console.log(`Connected successfully to ${getUrl()}`);
 }
 
+function loadFixtures () {
+
+}
+
 module.exports = {
     getDb,
     getUrl,
     connect,
-    connectionSuccess
+    connectionSuccess,
+    loadFixtures
 };
