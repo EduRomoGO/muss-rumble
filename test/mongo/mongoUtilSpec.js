@@ -80,7 +80,7 @@ describe('mongoUtil', function() {
 
     });
 
-    describe('loadFixtures', function() {
+    describe('loadFixtures', function(done) {
 
         it.only('should return an error if no fixtures data is found', function () {
             // function getFixtures () {
@@ -101,8 +101,27 @@ describe('mongoUtil', function() {
                 .catch(manageError);
         });
 
-        xit('should load fixtures data to test db', function () {
+function getFixtures() {
+    const path = process.cwd();
+    const fixturesPath = path + '/test/fixtures/loadFixtures.json';
+    const loadFixtures = require(fixturesPath);
+
+    return loadFixtures.collections.bets;
+}
+
+        it.only('should load fixtures data to test db', function (done) {
+            const collection = 'bets';
+            const fixtures = getFixtures();
             
+            mongoUtil.connect().then(function(db) {
+                mongoUtil.loadFixtures().then(function() {
+                    db.collection(collection).find({}).then.toArray().then((bets) => {
+                        bets.length.should.equal(fixtures.length);
+                    });
+                })
+                .then(() => done(), done);
+            })
+            .then(() => done(), done);
         });
 
     });
