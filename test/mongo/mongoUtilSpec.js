@@ -158,7 +158,7 @@ describe('mongoUtil', function() {
             connectDb(done);
         });
 
-        it.only('should remove all collections from test db', function(done) {
+        it.only('should remove all collections from an empty db', function(done) {
             const db = mongoUtil.getDb();
 
             mongoUtil.dropDb().then(function () {
