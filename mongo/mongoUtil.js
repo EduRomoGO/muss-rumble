@@ -7,11 +7,16 @@ const async = require('async');
 let DB;
 
 function getDb() {
-    if (DB) return DB;
-    else {
+    let db;
+
+    if (DB) {
+        db = DB;
+    } else {
         console.error('Error: No DB connection is present');
         // process.exit();
     }
+
+    return db;
 }
 
 function getUrl () {
@@ -84,11 +89,21 @@ function dropDb (db) {
     });
 }
 
+function closeConnection () {
+    return new Promise((resolve, reject) => {
+        getDb().close(true).then(() => {
+            DB = undefined;
+            resolve();
+        });
+    });
+}
+
 module.exports = {
     getDb,
     getUrl,
     connect,
     connectionSuccess,
     loadFixtures,
-    dropDb
+    dropDb,
+    closeConnection
 };
