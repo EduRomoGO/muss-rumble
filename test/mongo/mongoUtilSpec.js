@@ -7,6 +7,7 @@ const expect = chai.expect;
 const should = chai.should();
 const sinon = require('sinon');
 const sandbox = sinon.sandbox.create();
+const async = require('async');
 const connectionOptions = {silent: true};
 const getConnectionOptions = {silent: true};
 
@@ -139,7 +140,7 @@ describe('mongoUtil', function() {
             connectDb(done);
         });
 
-        afterEach(function (done) {
+        beforeEach(function (done) {
             dropDb(mongoUtil.getDb()).then(() => done());
         });
     
@@ -160,25 +161,56 @@ describe('mongoUtil', function() {
             const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
             const loadFixtures = require(loadFixturesPath);
 
-            return loadFixtures.collections.bets;
+            // return loadFixtures.collections.bets;
+            return loadFixtures;
         }
 
         it('should load fixtures data to test db', function (done) {
             const collection = 'bets';
             const fixtures = getFixtures();
             const db = mongoUtil.getDb();
+            // getCollectionList(db);
+            // this.timeout(5000);
             
-            function findAll() {
-                return db.collection(collection).find({}).toArray();
+            // function findAll() {
+            //     return db.collection(collection).find({}).toArray();
+            // }
+
+            function getDbCollections () {
+                return getCollectionList(db);
             }
 
-            function assert(bets) {
-                return bets.length.should.equal(fixtures.length);
+            function makeAsserts(collections) {
+                 const collectionNames = Object.keys(collections);
+
+                return new Promise((resolve, reject) => {
+                    async.each(collections, function(collection, cb) {
+                        db.collection(collection.name).find({}).toArray().then((items) => {
+                            cb();
+                            return items.length.should.equal(fixtures.collections[collection.name].length);
+                        })
+                        .catch(done);
+                    }, resolve);
+                });
+
+                // async.each(collections, function(collection, cb) {
+                //     db.collection(collection.name).find({}).toArray().then((items) => {
+                //         expect(33).equal(fixtures.collections[collection.name].length);
+                //         cb();
+                //     });
+                // }, function(){
+                //     console.log('yyyess');
+                // });
             }
+
+            // function assert(bets) {
+            //     return bets.length.should.equal(fixtures.length);
+            // }
 
             mongoUtil.loadFixtures(db)
-            .then(findAll)
-            .then(assert)
+            .then(getDbCollections)
+            .then(makeAsserts)
+            // .then(assert)
             .then(() => done())
             .catch(done);
         });
