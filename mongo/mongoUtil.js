@@ -84,10 +84,14 @@ function dropDb (db) {
 
 function closeConnection () {
     return new Promise((resolve, reject) => {
-        getDb().close(true).then(() => {
-            DB = undefined;
+        if (getDb() !== undefined) {
+            getDb().close(true).then(() => {
+                DB = undefined;
+                resolve();
+            });
+        } else {
             resolve();
-        });
+        }
     });
 }
 
