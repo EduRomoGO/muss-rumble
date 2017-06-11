@@ -33,10 +33,6 @@ function getCollectionList (db) {
     return db.listCollections().toArray();
 }
 
-function finish() {
-    return () => done();
-}
-
 
 describe('mongoUtil', function() {
     
@@ -178,10 +174,10 @@ describe('mongoUtil', function() {
             const db = mongoUtil.getDb();
 
             function dropDb() {
-                return mongoUtil.dropDb();
+                return mongoUtil.dropDb(db);
             }
 
-            function getCollectionList() {
+            function getCollectionListP() {
                 return getCollectionList(db);
             }
 
@@ -191,9 +187,9 @@ describe('mongoUtil', function() {
 
             mongoUtil.loadFixtures(db)
             .then(dropDb)
-            .then(getCollectionList)
+            .then(getCollectionListP)
             .then(assert)
-            .then(finish)
+            .then(() => done())
             .catch(done);
         });
 
