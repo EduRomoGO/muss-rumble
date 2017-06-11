@@ -134,6 +134,15 @@ describe('mongoUtil', function() {
         before(function (done) {
             connectDb(done);
         });
+
+
+        function dropDb(db) {
+            return mongoUtil.dropDb(db);
+        }
+
+        afterEach(function (done) {
+            dropDb(mongoUtil.getDb()).then(() => done());
+        });
     
         it('should return an error if no fixtures data is found', function (done) {
             // function getFixtures () {
@@ -170,12 +179,26 @@ describe('mongoUtil', function() {
             const fixtures = getFixtures();
             const db = mongoUtil.getDb();
             
-            mongoUtil.loadFixtures(db, done).then(function() {
-                db.collection(collection).find({}).toArray().then((bets) => {
-                    bets.length.should.equal(fixtures.length);
-                });
-            })
-            .then(() => done(), done);
+            function findAll() {
+                return db.collection(collection).find({}).toArray();
+            }
+
+            function assert(bets) {
+                return bets.length.should.equal(fixtures.length);
+            }
+
+            mongoUtil.loadFixtures(db)
+            .then(findAll)
+            .then(assert)
+            .then(() => done())
+            .catch(done);
+
+            // mongoUtil.loadFixtures(db, done).then(function() {
+            //     db.collection(collection).find({}).toArray().then((bets) => {
+            //         return bets.length.should.equal(fixtures.length);
+            //     });
+            // })
+            // .then(() => done(), done);
         });
 
     });
