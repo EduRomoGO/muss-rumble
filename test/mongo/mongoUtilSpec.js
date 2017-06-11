@@ -94,6 +94,7 @@ describe('mongoUtil', function() {
         
         afterEach(function () {
             closeConnection();
+            sandbox.restore();
         });
 
         it('should return the db if the app has established a connection', function (done) {
@@ -109,6 +110,13 @@ describe('mongoUtil', function() {
             mongoUtil.getDb();
             expect(consoleErrorSpy.calledOnce).to.be.true;
             expect( consoleErrorSpy.calledWith('Error: No DB connection is present') ).to.be.true;
+        });
+
+        it('logs an error message if no connection is available', function () {
+            const consoleErrorSpy = sandbox.spy(console, 'error');
+
+            mongoUtil.getDb();
+            expect(consoleErrorSpy.calledOnce).to.be.true;
         });
 
     });
