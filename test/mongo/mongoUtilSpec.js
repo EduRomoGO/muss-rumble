@@ -216,29 +216,15 @@ describe('mongoUtil', function() {
         });
 
         it('should close current database connection', function (done) {
-            // let dbConnection;
-            // const db = mongoUtil.getDb();
-
-            function setDB(db) {
-                dbConnection = db;
-                return db;
-            }
-
             function closeConnection() {
                 return mongoUtil.closeConnection();
             }
 
             function assert() {
-                // .then(() => {
-                //     return db.close(true);
-                // });
                 const db = mongoUtil.getDb();
                 return expect(db).to.eql(undefined);
             }
 
-            // mongoUtil.connect(connectionOptions)
-            // .then(setDB)
-            // .then(closeConnection)
             closeConnection()
             .then(assert)
             .then(() => done())
