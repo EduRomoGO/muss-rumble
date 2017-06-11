@@ -6,8 +6,14 @@ const MongoUrl = require('./MongoUrl.js');
 const async = require('async');
 let DB;
 
-function getDb() {
-    if (DB === undefined) { console.error('Error: No DB connection is present'); }
+function getDb(options) {
+    if (DB === undefined) {
+        const silentOptionPassed = options !== undefined && !options.silent;
+
+        if (options === undefined || silentOptionPassed) {
+            console.error('Error: No DB connection is present'); 
+        }
+    }
 
     return DB;
 }
