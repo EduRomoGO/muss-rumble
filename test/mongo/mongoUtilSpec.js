@@ -9,7 +9,6 @@ const expect = chai.expect;
 const should = chai.should();
 const sinon = require('sinon');
 const sandbox = sinon.sandbox.create();
-let testsRun = [];
 const connectionOptions = {silent: true};
 
 
@@ -25,10 +24,6 @@ function closeConnection() {
     mongoUtil.getDb().close();
 }
 
-function emptyLog () {
-    testsRun = [];
-}
-
 function connectDb(done) {
     mongoUtil.connect(connectionOptions).then(() => done()).catch(done);
 }
@@ -39,10 +34,6 @@ function getCollectionList (db) {
 
 
 describe('mongoUtil', function() {
-    
-    after(function() {
-        emptyLog();
-    });
 
     describe('connect method', function() {
 
@@ -160,8 +151,6 @@ describe('mongoUtil', function() {
         }
 
         it('should load fixtures data to test db', function (done) {
-            // console.info('should load fixtures data to test db');
-            testsRun.push('should load fixtures data to test db');
             const collection = 'bets';
             const fixtures = getFixtures();
             const db = mongoUtil.getDb();
