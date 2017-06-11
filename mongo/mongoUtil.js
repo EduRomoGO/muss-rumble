@@ -9,7 +9,7 @@ let DB;
 function getDb() {
     if (DB) return DB;
     else {
-        console.error('No DB connection is present');
+        console.error('Error: No DB connection is present');
         process.exit();
     }
 }
@@ -56,14 +56,14 @@ function loadFixtures (db, done) {
     // return Promise.reject({
     //             msg: 'No fixtures found'
     //         });
-    
+
     return new Promise ((resolve, reject) => {
         const collections = Object.keys(loadFixturesJson.collections);
 
         async.each(collections, function(collection, cb) {
             db.createCollection(collection, function(err, collection) {
                 if (err) return done(err);
-                collection.insert(loadFixturesJson.collections[collection], cb);
+                collection.insert(loadFixturesJson.collections[collection.s.name], cb);
             });
         }, done);
 
