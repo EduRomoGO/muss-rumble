@@ -31,6 +31,10 @@ function getCollectionList (db) {
     return db.listCollections().toArray();
 }
 
+function dropDb(db) {
+    return mongoUtil.dropDb(db);
+}
+
 
 describe('mongoUtil', function() {
 
@@ -135,11 +139,6 @@ describe('mongoUtil', function() {
             connectDb(done);
         });
 
-
-        function dropDb(db) {
-            return mongoUtil.dropDb(db);
-        }
-
         afterEach(function (done) {
             dropDb(mongoUtil.getDb()).then(() => done());
         });
@@ -224,8 +223,8 @@ describe('mongoUtil', function() {
         it('should remove all collections from a populated db', function(done) {
             const db = mongoUtil.getDb();
 
-            function dropDb() {
-                return mongoUtil.dropDb(db);
+            function dropDbMethod() {
+                return dropDb(db);
             }
 
             function getCollectionListP() {
@@ -237,7 +236,7 @@ describe('mongoUtil', function() {
             }
 
             mongoUtil.loadFixtures(db)
-            .then(dropDb)
+            .then(dropDbMethod)
             .then(getCollectionListP)
             .then(assert)
             .then(() => done())
