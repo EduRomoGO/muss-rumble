@@ -159,7 +159,7 @@ describe('mongoUtil', function() {
         });
 
         it.only('should remove all collections from test db', function(done) {
-            mongoUtil.getDb().dropDb().then(function () {
+            mongoUtil.dropDb().then(function () {
                 countCollections(db).then((collections) => {
                     collections.length.should.equal(0);
                 });
