@@ -70,10 +70,34 @@ function loadFixtures (db) {
     });
 }
 
-function dropDb () {
+// function dropCollection (collection, cb) {
+//     // collection.remove();
+//     // if (collection.collectionName.indexOf('system') === 0) {
+//     //     return cb();
+//     // }
+//     db.dropCollection(collection).remove();
+// }
+
+function dropDb (db) {
     return new Promise((resolve, reject) => {
-        resolve(true);
+        db.collections().then((collections) => {
+            async.each(collections, function (collection, cb) {
+                db.dropCollection(collection.s.name, cb);
+            }, resolve);
+            // dropCollection(collections[0]);
+            // resolve(db);
+        });
+        // db.collections(function(err, collections) {
+        // async.each(collections, function(collection, cb) {
+        // if (collection.collectionName.indexOf('system') === 0) {
+        //     return cb();
+        // }
+        // collection.remove(cb);
+        // }, resolve);
+    // })
     });
+
+
 }
 
 module.exports = {
