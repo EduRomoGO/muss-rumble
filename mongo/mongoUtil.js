@@ -2,7 +2,6 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const MongoUrl = require('./MongoUrl.js');
-// import each from 'async/each';
 const async = require('async');
 let DB;
 
@@ -56,14 +55,6 @@ function getFixtures() {
 
 function loadFixtures (db) {
     const loadFixturesJson = getFixtures();
-
-    // loadFixturesJson.collections.bets.forEach(function (bet) {
-    //     db.collection('bets').insertOne(bet);
-    // });
-
-    // return Promise.reject({
-    //             msg: 'No fixtures found'
-    //         });
 
     return new Promise ((resolve, reject) => {
         const collections = Object.keys(loadFixturesJson.collections);
