@@ -1,0 +1,2 @@
+Make test getDb method should return an error if no connection has been established work using spies
+mongoUtil closeConnection method should close current database connection

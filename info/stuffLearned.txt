@@ -1,0 +1,8 @@
+{
+    project: 'betManagerNew',
+    stuffLearned: [
+        'como usar mocha recursivamente',
+        'manejar las variables de entorno de ejecucion para node',
+        'async.js llamar al callback tras cada iteracion para darla por terminada'
+    ]
+}
