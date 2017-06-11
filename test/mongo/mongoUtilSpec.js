@@ -170,6 +170,21 @@ describe('mongoUtil', function() {
             .catch(done);
         });
 
+        it.only('should remove all collections from a populated db', function(done) {
+            const db = mongoUtil.getDb();
+
+            mongoUtil.loadFixtures(db).then(() => {
+                mongoUtil.dropDb().then(function () {
+                    countCollections(db).then((collections) => {
+                        collections.length.should.equal(0);
+                    })
+                    .then(() => done());
+                })
+                .then(() => done());
+            })
+            .catch(done);
+        });
+
     });
 
 });
