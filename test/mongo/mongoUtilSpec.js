@@ -76,12 +76,16 @@ describe('mongoUtil', function() {
         });
 
         it('logs a success message after connection', function (done) {
-            var consoleLogSpy = sinon.spy(console, "log");
+            const consoleLogSpy = sinon.spy(console, "log");
 
             mongoUtil.connect().then(function(db) {
                 expect( consoleLogSpy.calledOnce ).to.be.true;
             })
-            .then(() => done(), done);            
+            .then(() => {
+                consoleLogSpy.restore()
+                done();
+            })
+            .catch(done);
         });
 
     });
