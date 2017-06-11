@@ -19,7 +19,9 @@ function resetEnv() {
 }
 
 function closeConnection() {
-    mongoUtil.getDb().close();
+    if (mongoUtil.getDb() !== undefined) {
+        mongoUtil.getDb().close();
+    }
 }
 
 function connectDb(done) {
@@ -104,10 +106,11 @@ describe('mongoUtil', function() {
         });
 
         xit('should return an error if no connection has been established', function () {
-            const connectionError = {
-                msg: 'mongodb connection not found'
-            };
-            mongoUtil.getDb().should.equal(connectionError);
+            const consoleErrorSpy = sandbox.spy(console, 'error');
+
+            mongoUtil.getDb();
+            expect(consoleErrorSpy.calledOnce).to.be.true;
+            expect( consoleErrorSpy.calledWith('Error: No DB connection is present') ).to.be.true;
         });
 
     });
@@ -152,7 +155,6 @@ describe('mongoUtil', function() {
             const collection = 'bets';
             const fixtures = getFixtures();
             const db = mongoUtil.getDb();
-
             
             mongoUtil.loadFixtures(db, done).then(function() {
                 db.collection(collection).find({}).toArray().then((bets) => {
@@ -200,6 +202,43 @@ describe('mongoUtil', function() {
             mongoUtil.loadFixtures(db)
             .then(dropDb)
             .then(getCollectionListP)
+            .then(assert)
+            .then(() => done())
+            .catch(done);
+        });
+
+    });
+
+    describe('closeConnection method', function(done) {
+
+        before(function (done) {
+            connectDb(done);
+        });
+
+        it.only('should close current database connection', function () {
+            // let dbConnection;
+            // const db = mongoUtil.getDb();
+
+            function setDB(db) {
+                dbConnection = db;
+                return db;
+            }
+
+            function closeConnection() {
+                return mongoUtil.closeConnection();
+            }
+
+            function assert() {
+                // .then(() => {
+                //     return db.close(true);
+                // });
+                return db.should.equal(null);
+            }
+
+            // mongoUtil.connect(connectionOptions)
+            // .then(setDB)
+            // .then(closeConnection)
+            closeConnection()
             .then(assert)
             .then(() => done())
             .catch(done);
