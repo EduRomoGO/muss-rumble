@@ -18,11 +18,11 @@ function getUrl () {
     return MongoUrl.get();
 }
 
-function connect() {
+function connect(options) {
     return new Promise ((resolve, reject) => {
         MongoClient.connect(getUrl())
             .then((db) => {
-                connectionSuccess();
+                if (options === undefined || (options !== undefined && !options.silent)) {connectionSuccess();}
                 DB = db;
                 resolve(db);
             })
