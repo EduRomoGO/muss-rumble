@@ -88,6 +88,19 @@ describe('mongoUtil', function() {
             .catch(done);
         });
 
+        it('doesnt log a success message after connection if silent option is passed', function (done) {
+            const consoleLogSpy = sinon.spy(console, "log");
+
+            mongoUtil.connect().then(function(db) {
+                expect( consoleLogSpy.calledOnce ).to.be.false;
+            })
+            .then(() => {
+                consoleLogSpy.restore()
+                done();
+            })
+            .catch(done);
+        });
+
     });
 
     describe('getDb method', function () {
