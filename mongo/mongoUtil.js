@@ -7,16 +7,9 @@ const async = require('async');
 let DB;
 
 function getDb() {
-    let db;
+    if (DB === undefined) { console.error('Error: No DB connection is present'); }
 
-    if (DB) {
-        db = DB;
-    } else {
-        console.error('Error: No DB connection is present');
-        // process.exit();
-    }
-
-    return db;
+    return DB;
 }
 
 function getUrl () {
