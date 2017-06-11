@@ -20,7 +20,7 @@ function resetEnv() {
 }
 
 function closeConnection() {
-    return mongoUtil.closeConnection();
+    return mongoUtil.closeConnection(getConnectionOptions);
 }
 
 function connectDb(done) {
@@ -106,7 +106,7 @@ describe('mongoUtil', function() {
         });
 
         it('should return an error if no connection has been established', function () {
-            const consoleErrorSpy = sandbox.spy(console, 'error');
+            const consoleErrorSpy = sandbox.stub(console, 'error');
 
             mongoUtil.getDb();
             expect(consoleErrorSpy.calledOnce).to.be.true;
@@ -114,7 +114,7 @@ describe('mongoUtil', function() {
         });
 
         it('logs an error message if no connection is available', function () {
-            const consoleErrorSpy = sandbox.spy(console, 'error');
+            const consoleErrorSpy = sandbox.stub(console, 'error');
 
             mongoUtil.getDb();
             expect(consoleErrorSpy.calledOnce).to.be.true;
@@ -124,7 +124,7 @@ describe('mongoUtil', function() {
             const consoleErrorSpy = sandbox.spy(console, 'error');
 
             mongoUtil.getDb(getConnectionOptions);
-            expect(consoleErrorSpy.calledOnce).to.be.false;
+            expect(consoleErrorSpy.called).to.be.false;
         });
 
     });
@@ -231,7 +231,7 @@ describe('mongoUtil', function() {
 
         it('should close current database connection', function (done) {
             function assert() {
-                const db = mongoUtil.getDb();
+                const db = mongoUtil.getDb(getConnectionOptions);
                 return expect(db).to.eql(undefined);
             }
 

@@ -88,9 +88,9 @@ function dropDb (db) {
     });
 }
 
-function closeConnection () {
+function closeConnection (options) {
     return new Promise((resolve, reject) => {
-        if (getDb() !== undefined) {
+        if (getDb(options) !== undefined) {
             getDb().close(true).then(() => {
                 DB = undefined;
                 resolve();
