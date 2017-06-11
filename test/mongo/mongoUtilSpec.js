@@ -191,13 +191,6 @@ describe('mongoUtil', function() {
             .then(assert)
             .then(() => done())
             .catch(done);
-
-            // mongoUtil.loadFixtures(db, done).then(function() {
-            //     db.collection(collection).find({}).toArray().then((bets) => {
-            //         return bets.length.should.equal(fixtures.length);
-            //     });
-            // })
-            // .then(() => done(), done);
         });
 
     });
