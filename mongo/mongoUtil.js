@@ -70,10 +70,15 @@ function loadFixtures (db, done) {
     });
 }
 
+function dropDb () {
+    return false;
+}
+
 module.exports = {
     getDb,
     getUrl,
     connect,
     connectionSuccess,
-    loadFixtures
+    loadFixtures,
+    dropDb
 };
