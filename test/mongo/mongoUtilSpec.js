@@ -8,6 +8,7 @@ const should = chai.should();
 const sinon = require('sinon');
 const sandbox = sinon.sandbox.create();
 const connectionOptions = {silent: true};
+const getConnectionOptions = {silent: true};
 
 
 function setEnv(env) {
@@ -117,6 +118,13 @@ describe('mongoUtil', function() {
 
             mongoUtil.getDb();
             expect(consoleErrorSpy.calledOnce).to.be.true;
+        });
+
+        it('doesnt log an error message if no connection is available and silent option passed', function () {
+            const consoleErrorSpy = sandbox.spy(console, 'error');
+
+            mongoUtil.getDb(getConnectionOptions);
+            expect(consoleErrorSpy.calledOnce).to.be.false;
         });
 
     });
