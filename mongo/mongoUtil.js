@@ -10,7 +10,7 @@ function getDb() {
     if (DB) return DB;
     else {
         console.error('Error: No DB connection is present');
-        process.exit();
+        // process.exit();
     }
 }
 
