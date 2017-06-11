@@ -19,9 +19,7 @@ function resetEnv() {
 }
 
 function closeConnection() {
-    if (mongoUtil.getDb() !== undefined) {
-        mongoUtil.getDb().close();
-    }
+    return mongoUtil.closeConnection();
 }
 
 function connectDb(done) {
@@ -105,7 +103,7 @@ describe('mongoUtil', function() {
             .then(() => done(), done);
         });
 
-        xit('should return an error if no connection has been established', function () {
+        it('should return an error if no connection has been established', function () {
             const consoleErrorSpy = sandbox.spy(console, 'error');
 
             mongoUtil.getDb();
@@ -216,10 +214,6 @@ describe('mongoUtil', function() {
         });
 
         it('should close current database connection', function (done) {
-            function closeConnection() {
-                return mongoUtil.closeConnection();
-            }
-
             function assert() {
                 const db = mongoUtil.getDb();
                 return expect(db).to.eql(undefined);
