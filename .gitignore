@@ -64,12 +64,6 @@ Temporary Items
 # My ignored stuff
 # =========================
 
-# Ignore notes
-borrador.txt
-
-# Ignore info docs
-/info
-
 # Ignore local environment secrets
 /config/local_env_secrets.yml
 
