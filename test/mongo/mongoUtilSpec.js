@@ -7,6 +7,7 @@ const chai = require('chai');
 chai.use(require('chai-as-promised'));
 const expect = chai.expect;
 const should = chai.should();
+let testsRun = [];
 
 function setEnv(env) {
     process.env.NODE_ENV = env;
@@ -20,7 +21,24 @@ function closeConnection() {
     mongoUtil.getDb().close();
 }
 
+function emptyLog () {
+    testsRun = [];
+}
+
+function connectDb(done) {
+    mongoUtil.connect().then(() => done()).catch(done);
+}
+
+function countCollections (db) {
+    return db.listCollections().toArray();
+}
+
+
 describe('mongoUtil', function() {
+    
+    after(function() {
+        emptyLog();
+    });
 
     describe('connect method', function() {
 
@@ -82,7 +100,11 @@ describe('mongoUtil', function() {
 
     describe('loadFixtures', function(done) {
 
-        it.only('should return an error if no fixtures data is found', function () {
+        before(function (done) {
+            connectDb(done);
+        });
+    
+        it('should return an error if no fixtures data is found', function (done) {
             // function getFixtures () {
             //     return undefined;
             // };
@@ -92,36 +114,58 @@ describe('mongoUtil', function() {
                 msg: 'No fixtures found'
             };
 
+            console.info('db.listCollections');
+            mongoUtil.getDb().listCollections().toArray().then((items) => console.info(items));
+
             function manageError (err) {
                 err.should.equal(noFixturesFoundErr);
             }
 
-            mongoUtil.loadFixtures()
+            mongoUtil.loadFixtures(mongoUtil.getDb(), done)
                 .then(() => done())
                 .catch(manageError);
         });
 
-function getFixtures() {
-    const path = process.cwd();
-    const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
-    const loadFixtures = require(loadFixturesPath);
+        function getFixtures() {
+            const path = process.cwd();
+            const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
+            const loadFixtures = require(loadFixturesPath);
 
-    return loadFixtures.collections.bets;
-}
+            return loadFixtures.collections.bets;
+        }
 
-        it.only('should load fixtures data to test db', function (done) {
+        xit('should load fixtures data to test db', function (done) {
+            console.info('should load fixtures data to test db');
+            testsRun.push('should load fixtures data to test db');
             const collection = 'bets';
             const fixtures = getFixtures();
+            const db = mongoUtil.getDb();
+
             
-            mongoUtil.connect().then(function(db) {
-                mongoUtil.loadFixtures(db, done).then(function() {
-                    db.collection(collection).find({}).then.toArray().then((bets) => {
-                        bets.length.should.equal(fixtures.length);
-                    });
-                })
-                .then(() => done(), done);
+            mongoUtil.loadFixtures(db, done).then(function() {
+                db.collection(collection).find({}).then.toArray().then((bets) => {
+                    bets.length.should.equal(fixtures.length);
+                });
             })
             .then(() => done(), done);
+        });
+
+    });
+
+    describe('dropDb method', function(done) {
+
+        before(function (done) {
+            connectDb(done);
+        });
+
+        it.only('should remove all collections from test db', function(done) {
+            mongoUtil.getDb().dropDb().then(function () {
+                countCollections(db).then((collections) => {
+                    collections.length.should.equal(0);
+                });
+            })
+            .then(() => done())
+            .catch(done);
         });
 
     });
