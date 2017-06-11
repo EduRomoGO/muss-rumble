@@ -29,7 +29,7 @@ function connectDb(done) {
     mongoUtil.connect().then(() => done()).catch(done);
 }
 
-function countCollections (db) {
+function getCollectionList (db) {
     return db.listCollections().toArray();
 }
 
@@ -166,7 +166,7 @@ describe('mongoUtil', function() {
             const db = mongoUtil.getDb();
 
             mongoUtil.dropDb().then(function () {
-                countCollections(db).then((collections) => {
+                getCollectionList(db).then((collections) => {
                     collections.length.should.equal(0);
                 });
             })
@@ -177,12 +177,12 @@ describe('mongoUtil', function() {
         it.only('should remove all collections from a populated db', function(done) {
             const db = mongoUtil.getDb();
 
-            function dropDbMethod() {
+            function dropDb() {
                 return mongoUtil.dropDb();
             }
 
-            function countCollectionsP() {
-                return countCollections(db);
+            function getCollectionList() {
+                return getCollectionList(db);
             }
 
             function assert(collections) {
@@ -190,8 +190,8 @@ describe('mongoUtil', function() {
             }
 
             mongoUtil.loadFixtures(db)
-            .then(dropDbMethod)
-            .then(countCollectionsP)
+            .then(dropDb)
+            .then(getCollectionList)
             .then(assert)
             .then(finish)
             .catch(done);
