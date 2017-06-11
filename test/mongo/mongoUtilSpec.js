@@ -8,6 +8,7 @@ chai.use(require('chai-as-promised'));
 const expect = chai.expect;
 const should = chai.should();
 const sinon = require('sinon');
+const sandbox = sinon.sandbox.create();
 let testsRun = [];
 
 function setEnv(env) {
@@ -46,6 +47,7 @@ describe('mongoUtil', function() {
         afterEach(function () {
             resetEnv();
             closeConnection();
+            sandbox.restore();
         });
 
         it('connects to test db if running on test env', function (done) {
@@ -76,26 +78,28 @@ describe('mongoUtil', function() {
         });
 
         it('logs a success message after connection', function (done) {
-            const consoleLogSpy = sinon.spy(console, "log");
+            const consoleLogSpy = sandbox.spy(console, "log");
 
             mongoUtil.connect().then(function(db) {
                 expect( consoleLogSpy.calledOnce ).to.be.true;
+                // consoleLogSpy.restore();
             })
             .then(() => {
-                consoleLogSpy.restore()
                 done();
             })
             .catch(done);
         });
 
         it('doesnt log a success message after connection if silent option is passed', function (done) {
-            const consoleLogSpy = sinon.spy(console, "log");
+            const consoleLogSpy = sandbox.spy(console, "log");
+            const connectionOptions = {silent: true};
 
-            mongoUtil.connect().then(function(db) {
+            mongoUtil.connect(connectionOptions).then(function(db) {
                 expect( consoleLogSpy.calledOnce ).to.be.false;
+                // consoleLogSpy.restore();
             })
             .then(() => {
-                consoleLogSpy.restore()
+                // consoleLogSpy.restore();
                 done();
             })
             .catch(done);
