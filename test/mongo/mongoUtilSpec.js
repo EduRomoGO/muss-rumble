@@ -10,6 +10,8 @@ const should = chai.should();
 const sinon = require('sinon');
 const sandbox = sinon.sandbox.create();
 let testsRun = [];
+const connectionOptions = {silent: true};
+
 
 function setEnv(env) {
     process.env.NODE_ENV = env;
@@ -28,7 +30,7 @@ function emptyLog () {
 }
 
 function connectDb(done) {
-    mongoUtil.connect().then(() => done()).catch(done);
+    mongoUtil.connect(connectionOptions).then(() => done()).catch(done);
 }
 
 function getCollectionList (db) {
@@ -53,7 +55,7 @@ describe('mongoUtil', function() {
         it('connects to test db if running on test env', function (done) {
             setEnv('test');
 
-            mongoUtil.connect().then(function(db) {
+            mongoUtil.connect(connectionOptions).then(function(db) {
                 expect(db.s.databaseName).to.equal('mussRumbleTest');
             })
             .then(() => done(), done);
@@ -62,7 +64,7 @@ describe('mongoUtil', function() {
         it('connects to development db if running on development env', function (done) {
             setEnv('development');
 
-            mongoUtil.connect().then(function(db) {
+            mongoUtil.connect(connectionOptions).then(function(db) {
                 expect(db.s.databaseName).to.equal('mussRumble');
             })
             .then(() => done(), done);
@@ -71,37 +73,29 @@ describe('mongoUtil', function() {
         it('connects to production db if running on production env', function (done) {
             setEnv('production');
 
-            mongoUtil.connect().then(function(db) {
+            mongoUtil.connect(connectionOptions).then(function(db) {
                 expect(db.s.databaseName).to.equal('mussRumbleProduction');
             })
             .then(() => done(), done);
         });
 
         it('logs a success message after connection', function (done) {
-            const consoleLogSpy = sandbox.spy(console, "log");
+            const consoleLogSpy = sandbox.stub(console, "log");
 
             mongoUtil.connect().then(function(db) {
                 expect( consoleLogSpy.calledOnce ).to.be.true;
-                // consoleLogSpy.restore();
             })
-            .then(() => {
-                done();
-            })
+            .then(() => done(), done)
             .catch(done);
         });
 
         it('doesnt log a success message after connection if silent option is passed', function (done) {
             const consoleLogSpy = sandbox.spy(console, "log");
-            const connectionOptions = {silent: true};
 
             mongoUtil.connect(connectionOptions).then(function(db) {
                 expect( consoleLogSpy.calledOnce ).to.be.false;
-                // consoleLogSpy.restore();
             })
-            .then(() => {
-                // consoleLogSpy.restore();
-                done();
-            })
+            .then(() => done(), done)
             .catch(done);
         });
 
@@ -114,7 +108,7 @@ describe('mongoUtil', function() {
         });
 
         it('should return the db if the app has established a connection', function (done) {
-            mongoUtil.connect().then(function(db) {
+            mongoUtil.connect(connectionOptions).then(function(db) {
                 mongoUtil.getDb().s.databaseName.should.equal('mussRumbleTest');
             })
             .then(() => done(), done);
@@ -145,8 +139,8 @@ describe('mongoUtil', function() {
                 msg: 'No fixtures found'
             };
 
-            console.info('db.listCollections');
-            mongoUtil.getDb().listCollections().toArray().then((items) => console.info(items));
+            // console.info('db.listCollections');
+            // mongoUtil.getDb().listCollections().toArray().then((items) => console.info(items));
 
             function manageError (err) {
                 err.should.equal(noFixturesFoundErr);
@@ -166,7 +160,7 @@ describe('mongoUtil', function() {
         }
 
         it('should load fixtures data to test db', function (done) {
-            console.info('should load fixtures data to test db');
+            // console.info('should load fixtures data to test db');
             testsRun.push('should load fixtures data to test db');
             const collection = 'bets';
             const fixtures = getFixtures();
