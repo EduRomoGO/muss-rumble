@@ -33,6 +33,10 @@ function countCollections (db) {
     return db.listCollections().toArray();
 }
 
+function finish() {
+    return () => done();
+}
+
 
 describe('mongoUtil', function() {
     
@@ -173,15 +177,23 @@ describe('mongoUtil', function() {
         it.only('should remove all collections from a populated db', function(done) {
             const db = mongoUtil.getDb();
 
-            mongoUtil.loadFixtures(db).then(() => {
-                mongoUtil.dropDb().then(function () {
-                    countCollections(db).then((collections) => {
-                        collections.length.should.equal(0);
-                    })
-                    .then(() => done());
-                })
-                .then(() => done());
-            })
+            function dropDbMethod() {
+                return mongoUtil.dropDb();
+            }
+
+            function countCollectionsP() {
+                return countCollections(db);
+            }
+
+            function assert(collections) {
+                return collections.length.should.equal(0);
+            }
+
+            mongoUtil.loadFixtures(db)
+            .then(dropDbMethod)
+            .then(countCollectionsP)
+            .then(assert)
+            .then(finish)
             .catch(done);
         });
 
