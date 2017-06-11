@@ -2,8 +2,6 @@
 
 const mongoUtil = require('../../mongo/mongoUtil.js');
 const chai = require('chai');
-// var chaiAsPromised = require("chai-as-promised");
-// chai.use(chaiAsPromised);
 chai.use(require('chai-as-promised'));
 const expect = chai.expect;
 const should = chai.should();
