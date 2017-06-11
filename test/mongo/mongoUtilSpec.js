@@ -215,7 +215,7 @@ describe('mongoUtil', function() {
             connectDb(done);
         });
 
-        it.only('should close current database connection', function () {
+        it('should close current database connection', function (done) {
             // let dbConnection;
             // const db = mongoUtil.getDb();
 
@@ -232,7 +232,8 @@ describe('mongoUtil', function() {
                 // .then(() => {
                 //     return db.close(true);
                 // });
-                return db.should.equal(null);
+                const db = mongoUtil.getDb();
+                return expect(db).to.eql(undefined);
             }
 
             // mongoUtil.connect(connectionOptions)
