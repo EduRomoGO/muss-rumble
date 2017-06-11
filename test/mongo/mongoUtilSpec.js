@@ -7,6 +7,7 @@ const chai = require('chai');
 chai.use(require('chai-as-promised'));
 const expect = chai.expect;
 const should = chai.should();
+const sinon = require('sinon');
 let testsRun = [];
 
 function setEnv(env) {
@@ -72,6 +73,15 @@ describe('mongoUtil', function() {
                 expect(db.s.databaseName).to.equal('mussRumbleProduction');
             })
             .then(() => done(), done);
+        });
+
+        it('logs a success message after connection', function (done) {
+            var consoleLogSpy = sinon.spy(console, "log");
+
+            mongoUtil.connect().then(function(db) {
+                expect( consoleLogSpy.calledOnce ).to.be.true;
+            })
+            .then(() => done(), done);            
         });
 
     });
@@ -158,7 +168,7 @@ describe('mongoUtil', function() {
             connectDb(done);
         });
 
-        it.only('should remove all collections from an empty db', function(done) {
+        it('should remove all collections from an empty db', function(done) {
             const db = mongoUtil.getDb();
 
             mongoUtil.dropDb(db).then(function () {
@@ -170,7 +180,7 @@ describe('mongoUtil', function() {
             .catch(done);
         });
 
-        it.only('should remove all collections from a populated db', function(done) {
+        it('should remove all collections from a populated db', function(done) {
             const db = mongoUtil.getDb();
 
             function dropDb() {
