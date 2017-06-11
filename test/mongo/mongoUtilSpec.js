@@ -158,10 +158,10 @@ describe('mongoUtil', function() {
             connectDb(done);
         });
 
-        xit('should remove all collections from an empty db', function(done) {
+        it.only('should remove all collections from an empty db', function(done) {
             const db = mongoUtil.getDb();
 
-            mongoUtil.dropDb().then(function () {
+            mongoUtil.dropDb(db).then(function () {
                 getCollectionList(db).then((collections) => {
                     collections.length.should.equal(0);
                 });
