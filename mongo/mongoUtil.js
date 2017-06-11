@@ -22,7 +22,7 @@ function connect(options) {
     return new Promise ((resolve, reject) => {
         MongoClient.connect(getUrl())
             .then((db) => {
-                if (options === undefined || (options !== undefined && !options.silent)) {connectionSuccess();}
+                connectionSuccess(options);
                 DB = db;
                 resolve(db);
             })
@@ -30,8 +30,12 @@ function connect(options) {
     });
 }
 
-function connectionSuccess () {
-    showSuccessMsg();
+function connectionSuccess (options) {
+    const silentOptionPassed = options !== undefined && !options.silent;
+
+    if (options === undefined || silentOptionPassed) {
+        showSuccessMsg();
+    }
 }
 
  function showSuccessMsg () {
