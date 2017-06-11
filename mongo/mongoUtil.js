@@ -46,7 +46,7 @@ function getFixtures() {
     return loadFixtures;
 }
 
-function loadFixtures (db, done) {
+function loadFixtures (db) {
     const loadFixturesJson = getFixtures();
 
     // loadFixturesJson.collections.bets.forEach(function (bet) {
@@ -62,10 +62,10 @@ function loadFixtures (db, done) {
 
         async.each(collections, function(collection, cb) {
             db.createCollection(collection, function(err, collection) {
-                if (err) return done(err);
+                if (err) return reject(err);
                 collection.insert(loadFixturesJson.collections[collection.s.name], cb);
             });
-        }, done);
+        }, resolve);
 
     });
 }

@@ -121,7 +121,7 @@ describe('mongoUtil', function() {
                 err.should.equal(noFixturesFoundErr);
             }
 
-            mongoUtil.loadFixtures(mongoUtil.getDb(), done)
+            mongoUtil.loadFixtures(mongoUtil.getDb())
                 .then(() => done())
                 .catch(manageError);
         });
@@ -134,7 +134,7 @@ describe('mongoUtil', function() {
             return loadFixtures.collections.bets;
         }
 
-        xit('should load fixtures data to test db', function (done) {
+        it('should load fixtures data to test db', function (done) {
             console.info('should load fixtures data to test db');
             testsRun.push('should load fixtures data to test db');
             const collection = 'bets';
@@ -143,7 +143,7 @@ describe('mongoUtil', function() {
 
             
             mongoUtil.loadFixtures(db, done).then(function() {
-                db.collection(collection).find({}).then.toArray().then((bets) => {
+                db.collection(collection).find({}).toArray().then((bets) => {
                     bets.length.should.equal(fixtures.length);
                 });
             })
@@ -158,7 +158,7 @@ describe('mongoUtil', function() {
             connectDb(done);
         });
 
-        it.only('should remove all collections from an empty db', function(done) {
+        xit('should remove all collections from an empty db', function(done) {
             const db = mongoUtil.getDb();
 
             mongoUtil.dropDb().then(function () {
