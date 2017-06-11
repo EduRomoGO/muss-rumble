@@ -161,7 +161,6 @@ describe('mongoUtil', function() {
             const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
             const loadFixtures = require(loadFixturesPath);
 
-            // return loadFixtures.collections.bets;
             return loadFixtures;
         }
 
@@ -169,12 +168,6 @@ describe('mongoUtil', function() {
             const collection = 'bets';
             const fixtures = getFixtures();
             const db = mongoUtil.getDb();
-            // getCollectionList(db);
-            // this.timeout(5000);
-            
-            // function findAll() {
-            //     return db.collection(collection).find({}).toArray();
-            // }
 
             function getDbCollections () {
                 return getCollectionList(db);
@@ -192,25 +185,11 @@ describe('mongoUtil', function() {
                         .catch(done);
                     }, resolve);
                 });
-
-                // async.each(collections, function(collection, cb) {
-                //     db.collection(collection.name).find({}).toArray().then((items) => {
-                //         expect(33).equal(fixtures.collections[collection.name].length);
-                //         cb();
-                //     });
-                // }, function(){
-                //     console.log('yyyess');
-                // });
             }
-
-            // function assert(bets) {
-            //     return bets.length.should.equal(fixtures.length);
-            // }
 
             mongoUtil.loadFixtures(db)
             .then(getDbCollections)
             .then(makeAsserts)
-            // .then(assert)
             .then(() => done())
             .catch(done);
         });
