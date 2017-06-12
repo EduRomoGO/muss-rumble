@@ -15,7 +15,7 @@ describe('fixturesUtil', function() {
         it('should retrieve fixtures from fixtures file if no file is specified', function() {
             const fixturesFileData = require('../fixtures/fixtures.json');
             
-            Object.keys(getFixtures()).should.eql(Object.keys(fixturesFileData));
+            Object.keys(getFixtures().collections).should.deep.equal(Object.keys(fixturesFileData.collections));
         });
 
     });
