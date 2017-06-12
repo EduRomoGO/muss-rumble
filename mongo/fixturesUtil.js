@@ -3,9 +3,8 @@
 module.exports = {
     getFixtures: function () {
         const path = process.cwd();
-        const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
-        const loadFixtures = require(loadFixturesPath);
+        const fixturesPath = path + '/test/fixtures/loadFixtures.json';
 
-        return loadFixtures;
+        return require(fixturesPath);
     }
 }
