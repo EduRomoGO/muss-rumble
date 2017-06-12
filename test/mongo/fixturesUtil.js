@@ -18,7 +18,7 @@ describe('fixturesUtil', function() {
             Object.keys(getFixtures().collections).should.deep.equal(Object.keys(fixturesFileData.collections));
         });
 
-        it.only('should retrieve fixtures from file passed as parameter', function() {
+        it('should retrieve fixtures from file passed as parameter', function() {
             const loadFixtures = 'loadFixtures';
             const fixturesFileData = require(`../fixtures/${loadFixtures}.json`);
 
