@@ -1,6 +1,7 @@
 'use strict';
 
 const mongoUtil = require('../../mongo/mongoUtil.js');
+const {getFixtures} = require('../../mongo/fixturesUtil.js');
 const chai = require('chai');
 chai.use(require('chai-as-promised'));
 const expect = chai.expect;
@@ -155,14 +156,6 @@ describe('mongoUtil', function() {
                 .then(() => done())
                 .catch(manageError);
         });
-
-        function getFixtures() {
-            const path = process.cwd();
-            const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
-            const loadFixtures = require(loadFixturesPath);
-
-            return loadFixtures;
-        }
 
         it('should load fixtures data to test db', function (done) {
             const collection = 'bets';

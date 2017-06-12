@@ -3,6 +3,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const MongoUrl = require('./MongoUrl.js');
 const async = require('async');
+const {getFixtures} = require('./fixturesUtil.js');
 let DB;
 
 function getDb(options) {
@@ -43,14 +44,6 @@ function connectionSuccess (options) {
 
  function showSuccessMsg () {
     console.log(`Connected successfully to ${getUrl()}`);
-}
-
-function getFixtures() {
-    const path = process.cwd();
-    const loadFixturesPath = path + '/test/fixtures/loadFixtures.json';
-    const loadFixtures = require(loadFixturesPath);
-
-    return loadFixtures;
 }
 
 function loadFixtures (db) {
