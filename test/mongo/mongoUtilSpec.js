@@ -252,4 +252,30 @@ describe('mongoUtil', function() {
 
     });
 
+    describe('updateAndGetNextSequence method', function () {
+
+        it('should update next sequence for a given collection in the db', function (done) {
+            const collection = 'horses';
+            const db = mongoUtil.getDb();
+
+            function getCollectionCounter () {
+                return db.collection('counters').find({_id: collection});
+            }
+
+            mongoUtil.loadFixtures(db)
+                .then(getCollectionCounter)
+                .then((counter) => {
+                    counter.seq.should.equal(1);
+                })
+                .then(mongoUtil.updateAndGetNextSequence(collection))
+                .then(getCollectionCounter)
+                .then((counter) => {
+                    counter.seq.should.equal(2);
+                })
+                .then(() => done())
+                .catch(err => {done(err)});
+        });
+
+    });
+
 });
