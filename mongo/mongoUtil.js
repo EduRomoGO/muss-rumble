@@ -85,6 +85,14 @@ function closeConnection (options) {
     });
 }
 
+function updateAndGetNextSequence(db, collection) {
+    return db.collection('counters')
+            .findOneAndUpdate(
+                { _id: collection },
+                { $inc: { seq: 1 } }
+            );
+}
+
 module.exports = {
     getDb,
     getUrl,
@@ -92,5 +100,6 @@ module.exports = {
     connectionSuccess,
     loadFixtures,
     dropDb,
-    closeConnection
+    closeConnection,
+    updateAndGetNextSequence
 };
