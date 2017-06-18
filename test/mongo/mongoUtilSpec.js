@@ -175,8 +175,11 @@ describe('mongoUtil', function() {
                             cb();
                             return items.length.should.equal(fixtures.collections[collection.name].length);
                         })
-                        .catch(done);
-                    }, resolve);
+                        .catch(err => reject(err));
+                    }, function (err) {
+                        if (err) { reject(err); }
+                        resolve();
+                    });
                 });
             }
 
