@@ -299,7 +299,7 @@ describe('mongoUtil', function() {
 
         it('should change generated ids from a collection to sequential ids', function (done) {
             const db = mongoUtil.getDb();
-            const collection = 'bets';
+            const collection = 'houses';
 
             function changeGeneratedIdsToSequentialIds() {
                 return mongoUtil.changeGeneratedIdsToSequentialIds(db, collection);
