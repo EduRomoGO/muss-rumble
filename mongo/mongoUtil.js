@@ -57,7 +57,12 @@ function loadFixtures (db) {
                 if (err) return reject(err);
                 collection.insert(loadFixturesJson.collections[collection.s.name], cb);
             });
-        }, resolve);
+        }, function (err) {
+            if (err) {reject(err);}
+            else {
+                resolve();
+            }
+        });
 
     });
 }
