@@ -98,6 +98,46 @@ function updateAndGetNextSequence(db, collection) {
             );
 }
 
+function changeGeneratedIdsToSequentialIds (db, collection) {
+
+    function removeItem(item) {
+        return db.collection(collection).removeOne({_id: item._id});
+    }
+
+    function addItem (item) {
+        return db.collection(collection).insertOne(item);
+    }
+
+    function updateItems (items) {
+        return new Promise((resolve, reject) => {
+            async.eachOf(items, function(item, index, cb) {
+                removeItem(item)
+                .then(()=> {
+                    item._id = index + 1;
+                    return addItem(item);
+                })
+                .then(()=>cb())
+                .catch(err => reject(err));
+            }, function (err) {
+                if (err) {reject(err);}
+                else { resolve(); }
+            });
+        });
+    }
+    
+    function getCollectionItems () {        
+        return db.collection(collection).find().toArray();
+    }
+
+
+    return new Promise ((resolve, reject) => {
+        getCollectionItems()
+        .then(updateItems)
+        .then(resolve)
+        .catch(err => reject(err));    
+    });
+}
+
 module.exports = {
     getDb,
     getUrl,
@@ -106,5 +146,6 @@ module.exports = {
     loadFixtures,
     dropDb,
     closeConnection,
-    updateAndGetNextSequence
+    updateAndGetNextSequence,
+    changeGeneratedIdsToSequentialIds
 };
