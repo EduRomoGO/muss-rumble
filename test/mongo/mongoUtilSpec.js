@@ -284,4 +284,40 @@ describe('mongoUtil', function() {
 
     });
 
+    describe('changeGeneratedIdsToSequentialIds method', function () {
+
+        before(function (done) {
+            connectDb(done);
+        });
+
+        beforeEach(function (done) {
+            mongoUtil.dropDb(mongoUtil.getDb()).then(() => done());
+        });
+
+        it('should change generated ids from a collection to sequential ids', function (done) {
+            const db = mongoUtil.getDb();
+            const collection = 'bets';
+
+            function changeGeneratedIdsToSequentialIds() {
+                return mongoUtil.changeGeneratedIdsToSequentialIds(db, collection);
+            }
+
+            function getCollectionItems () {        
+                return db.collection(collection).find().toArray();
+            }
+
+            function assert(collectionItems) {
+               return collectionItems[0]._id.should.equal(1);
+            }
+
+            mongoUtil.loadFixtures(db)
+            .then(changeGeneratedIdsToSequentialIds)
+            .then(getCollectionItems)
+            .then(assert)
+            .then(() => done())
+            .catch(done);
+        });
+        
+    });
+
 });

@@ -28,6 +28,10 @@
         "text": "Keep your keyboard clean."
       }
     ],
+    "houses": {
+      "_id": "generatedId",
+      "size": "tall"
+    },
     "counters": [
       { "_id" : "horses", "seq" : 1 },
       { "_id" : "turtles", "seq" : 7 }
