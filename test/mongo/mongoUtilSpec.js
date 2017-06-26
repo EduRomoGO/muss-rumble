@@ -175,8 +175,11 @@ describe('mongoUtil', function() {
                             cb();
                             return items.length.should.equal(fixtures.collections[collection.name].length);
                         })
-                        .catch(done);
-                    }, resolve);
+                        .catch(err => reject(err));
+                    }, function (err) {
+                        if (err) { reject(err); }
+                        resolve();
+                    });
                 });
             }
 
@@ -250,6 +253,74 @@ describe('mongoUtil', function() {
             .catch(done);
         });
 
+    });
+
+    describe('updateAndGetNextSequence method', function () {
+
+        before(function (done) {
+            connectDb(done);
+        });
+
+        it('should update next sequence for a given collection in the db', function (done) {
+            const collection = 'horses';
+            const db = mongoUtil.getDb();
+
+            function getCollectionCounter () {
+                return db.collection('counters').find({_id: collection}).toArray();
+            }
+
+            mongoUtil.loadFixtures(db)
+                .then(getCollectionCounter)
+                .then((counter) => {
+                    counter[0].seq.should.equal(1);
+                })
+                .then(() => {
+                    return mongoUtil.updateAndGetNextSequence(db, collection);
+                })
+                .then(getCollectionCounter)
+                .then((counter) => {
+                    counter[0].seq.should.equal(2);
+                })
+                .then(() => done())
+                .catch(err => {done(err)});
+        });
+
+    });
+
+    describe('changeGeneratedIdsToSequentialIds method', function () {
+
+        before(function (done) {
+            connectDb(done);
+        });
+
+        beforeEach(function (done) {
+            mongoUtil.dropDb(mongoUtil.getDb()).then(() => done());
+        });
+
+        it('should change generated ids from a collection to sequential ids', function (done) {
+            const db = mongoUtil.getDb();
+            const collection = 'houses';
+
+            function changeGeneratedIdsToSequentialIds() {
+                return mongoUtil.changeGeneratedIdsToSequentialIds(db, collection);
+            }
+
+            function getCollectionItems () {        
+                return db.collection(collection).find().toArray();
+            }
+
+            function assert(collectionItems) {
+               return collectionItems[0]._id.should.equal(1);
+            }
+
+            mongoUtil.loadFixtures(db)
+            .then(changeGeneratedIdsToSequentialIds)
+            .then(getCollectionItems)
+            .then(assert)
+            .then(() => done())
+            .catch(done);
+        });
+        
     });
 
 });

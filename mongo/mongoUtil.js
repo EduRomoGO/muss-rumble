@@ -57,7 +57,12 @@ function loadFixtures (db) {
                 if (err) return reject(err);
                 collection.insert(loadFixturesJson.collections[collection.s.name], cb);
             });
-        }, resolve);
+        }, function (err) {
+            if (err) {reject(err);}
+            else {
+                resolve();
+            }
+        });
 
     });
 }
@@ -83,6 +88,14 @@ function closeConnection (options) {
             resolve();
         }
     });
+}
+
+function updateAndGetNextSequence(db, collection) {
+    return db.collection('counters')
+            .findOneAndUpdate(
+                { _id: collection },
+                { $inc: { seq: 1 } }
+            );
 }
 
 function changeGeneratedIdsToSequentialIds (db, collection) {
@@ -133,5 +146,6 @@ module.exports = {
     loadFixtures,
     dropDb,
     closeConnection,
+    updateAndGetNextSequence,
     changeGeneratedIdsToSequentialIds
 };

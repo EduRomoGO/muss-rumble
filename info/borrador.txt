@@ -4,3 +4,9 @@ mongoUtil closeConnection method should close current database connection
 xit('should load fixtures data from the file passed as parameter using fixtures file as default', function (done) {
 
 });
+        it('should retrieve fixtures from file passed as parameter', function() {
+            const loadFixtures = 'loadFixtures';
+            const fixturesFileData = require(`../fixtures/${loadFixtures}.json`);
+
+            Object.keys(getFixtures(loadFixtures)).should.eql(Object.keys(fixturesFileData));
+        });
