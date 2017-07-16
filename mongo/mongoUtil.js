@@ -2,6 +2,7 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const MongoUrl = require('./MongoUrl.js');
+const {getDBName} = require('./mongoDbName.js');
 const async = require('async');
 const {getFixtures} = require('./fixturesUtil.js');
 let DB;
@@ -147,5 +148,6 @@ module.exports = {
     dropDb,
     closeConnection,
     updateAndGetNextSequence,
-    changeGeneratedIdsToSequentialIds
+    changeGeneratedIdsToSequentialIds,
+    getDBName
 };
