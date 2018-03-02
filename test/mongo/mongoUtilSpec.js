@@ -213,7 +213,7 @@ describe('mongoUtil', function() {
         it('should remove all collections from a populated db', function(done) {
             const db = mongoUtil.getDb();
 
-            function dropDbMethod() {
+            function executeDrop() {
                 return dropDb(db);
             }
 
@@ -226,7 +226,7 @@ describe('mongoUtil', function() {
             }
 
             mongoUtil.loadFixtures(db)
-            .then(dropDbMethod)
+            .then(executeDrop)
             .then(getCollectionListP)
             .then(assert)
             .then(() => done())
