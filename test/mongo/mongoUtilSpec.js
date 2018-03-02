@@ -264,25 +264,16 @@ describe('mongoUtil', function() {
         it('should update next sequence for a given collection in the db', function (done) {
             const collection = 'horses';
             const db = mongoUtil.getDb();
-
-            function getCollectionCounter () {
-                return db.collection('counters').find({_id: collection}).toArray();
-            }
+            const getCollectionCounter = () => db.collection('counters').find({_id: collection}).toArray();
 
             mongoUtil.loadFixtures(db)
                 .then(getCollectionCounter)
-                .then((counter) => {
-                    counter[0].seq.should.equal(1);
-                })
-                .then(() => {
-                    return mongoUtil.updateAndGetNextSequence(db, collection);
-                })
+                .then((counter) => counter[0].seq.should.equal(1))
+                .then(() =>  mongoUtil.updateAndGetNextSequence(db, collection))
                 .then(getCollectionCounter)
-                .then((counter) => {
-                    counter[0].seq.should.equal(2);
-                })
+                .then((counter) => counter[0].seq.should.equal(2))
                 .then(() => done())
-                .catch(err => {done(err)});
+                .catch(done);
         });
 
     });
