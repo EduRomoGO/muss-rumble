@@ -55,16 +55,10 @@ function loadFixtures (db) {
 
         async.each(collections, function(collection, cb) {
             db.createCollection(collection, function(err, collection) {
-                if (err) return reject(err);
+                if (err) reject(err);
                 collection.insert(loadFixturesJson.collections[collection.s.name], cb);
             });
-        }, function (err) {
-            if (err) {reject(err);}
-            else {
-                resolve();
-            }
-        });
-
+        }, err => err ? reject(err) : resolve());
     });
 }
 
