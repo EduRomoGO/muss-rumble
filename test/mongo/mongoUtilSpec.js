@@ -313,5 +313,31 @@ describe('mongoUtil', function() {
         });
         
     });
+    
+    describe('findLastElementAdded', () => {
+
+        before(function (done) {
+            connectDb(done);
+        });
+
+        beforeEach(function (done) {
+            mongoUtil.dropDb(mongoUtil.getDb()).then(() => done());
+        });
+
+        it('should return the last element added to a given collection', function (done) {
+            const db = mongoUtil.getDb();
+            const collection = 'cars';
+            const assert = lastElementAddedList => lastElementAddedList[0].should.deep.equal({
+                "user": "Peter Parker",
+                "text": "I like ice cream."
+            });
+
+            mongoUtil.loadFixtures(db)
+                .then(() => mongoUtil.findLastElementAdded(db, collection))
+                .then(assert)
+                .then(() => done())
+                .catch(done);
+        });
+    });
 
 });
