@@ -327,10 +327,10 @@ describe('mongoUtil', function() {
         it('should return the last element added to a given collection', function (done) {
             const db = mongoUtil.getDb();
             const collection = 'cars';
-            const assert = lastElementAddedList => lastElementAddedList[0].should.deep.equal({
-                "user": "Peter Parker",
-                "text": "I like ice cream."
-            });
+            const assert = lastElementAddedList => {
+                lastElementAddedList[0].user.should.equal("Peter Parker");
+                lastElementAddedList[0].text.should.equal("I like ice cream.");
+            }
 
             mongoUtil.loadFixtures(db)
                 .then(() => mongoUtil.findLastElementAdded(db, collection))
