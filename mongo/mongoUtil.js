@@ -133,6 +133,21 @@ function changeGeneratedIdsToSequentialIds (db, collection) {
     });
 }
 
+function findLastElementAdded(db, collection) {
+    const query = [
+        { "$sort": {"timeStamp": -1} },
+        { "$limit": 1 },
+        { "$project":  {
+                _id: 0,
+                user: 1,
+                text: 1
+            }
+        }
+    ];
+
+    return db.collection(collection).aggregate(query).toArray();
+}
+
 module.exports = {
     getDb,
     getUrl,
@@ -143,5 +158,6 @@ module.exports = {
     closeConnection,
     updateAndGetNextSequence,
     changeGeneratedIdsToSequentialIds,
-    getDBName
+    getDBName,
+    findLastElementAdded
 };
