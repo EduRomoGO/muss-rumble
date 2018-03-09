@@ -2,6 +2,7 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const MongoUrl = require('./MongoUrl.js');
+const updateLocalDb = require('./updateLocalDb.js');
 const {getDBName} = require('./mongoDbName.js');
 const async = require('async');
 const {getFixtures} = require('./fixturesUtil.js');
@@ -153,5 +154,6 @@ module.exports = {
     updateAndGetNextSequence,
     changeGeneratedIdsToSequentialIds,
     getDBName,
-    findLastElementAdded
+    findLastElementAdded,
+    updateLocalDb
 };
