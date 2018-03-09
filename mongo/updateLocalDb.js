@@ -1,14 +1,13 @@
 'use strict';
 
 var shell = require('shelljs');
-const { connect, dropDb } = require('./mongoUtil.js');
 const mongodb = require('mongodb');
 
 const connectToProdDb = prodDbUri => mongodb.MongoClient.connect(prodDbUri);
 const getProdCollections = prodDb => prodDb.collections();
 const getCollectionNames = collections => collections.map(collection => collection.s.name);
 
-module.exports = ({prodDbName, prodDbUri, prodDbHost, prodDbUser, prodDbPass, dumpLocation, localDbName}) => new Promise((resolve, reject) => {
+module.exports = ({prodDbName, prodDbUri, prodDbHost, prodDbUser, prodDbPass, dumpLocation, localDbName, connect, dropDb}) => new Promise((resolve, reject) => {
 
     function dumpAll (collectionNames) {
         collectionNames.forEach(dump);
