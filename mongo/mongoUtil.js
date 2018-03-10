@@ -86,13 +86,16 @@ function closeConnection (options) {
     });
 }
 
-function updateAndGetNextSequence(db, collection) {
-    return db.collection('counters')
-            .findOneAndUpdate(
-                { _id: collection },
-                { $inc: { seq: 1 } }
-            );
-}
+const updateAndGetNextSequence = (db, collection) => new Promise((resolve, reject) => {
+    db.collection('counters')
+        .findOneAndUpdate(
+            { _id: collection },
+            { $inc: { seq: 1 } }
+        )
+        .then(result => (result.value) ? resolve(result) : db.collection('counters').insertOne({ _id: collection, seq: 1 }))
+        .then(() => {value: {seq: 1}})
+        .catch(reject);
+});
 
 function changeGeneratedIdsToSequentialIds (db, collection) {
 
