@@ -92,7 +92,7 @@ const updateAndGetNextSequence = (db, collection) => new Promise((resolve, rejec
             { _id: collection },
             { $inc: { seq: 1 } }
         )
-        .then(result => (result.value) ? resolve(result) : db.collection('counters').insertOne({ _id: collection, seq: 1 }))
+        .then(result => (result.value) ? resolve(result) : db.collection('counters').insertOne({ _id: collection, seq: 2 }))
         .then(() => resolve({value: {seq: 1}}))
         .catch(reject);
 });
