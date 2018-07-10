@@ -58,7 +58,7 @@ mongoUtil.getDBName()
 
 #### updateLocalDb()
 
-Receives an object with some needed params and returns a promise. This promise resolves if the update took place or rejects if it failed.
+Method to populate local db with prod db data. It will connect to prod db, dump all the data on your local machine and then update local db with this data. Note that this is a **destructive** operation and can not be undone. All the data in your local machine will be overriden by the data on prod db. Below there is an usage example:
 
 ```javascript
 const localDbName = mongoUtil.getDBName();
@@ -71,3 +71,5 @@ const dumpLocation = 'path/to/your/backups';
 
 mongoUtil.updateLocalDb({prodDbName, prodDbUri, prodDbHost, prodDbUser, prodDbPass, dumpLocation, localDbName})
 ```
+
+Here you pass an object with all the info needed to connect to your prod and local dbs. The method receives an object and returns a promise that will resolve successfully if the update took place or  will be rejected if it failed.
