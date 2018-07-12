@@ -70,3 +70,8 @@ Receives the db connection object and returns a promise. The promise will resolv
 #### findLastElementAdded(db, collection)
 
 Receives a db and a collection of this db and returns the last element added to this collection.
+
+
+#### changeGeneratedIdsToSequentialIds(db, collection)
+
+Receives a db and a collection and return a promise. The promise will resolve after it replaces all the generated ids by sequential ids or is rejected if something went wrong.
