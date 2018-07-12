@@ -15,28 +15,6 @@ To install it simply type
 
 This utility provides some helpers to manage mongo db based apps like connect/disconnect from a db, get the db item, etc.
 
-**Prerequisites**
-
-- It is necessary that locally you create a db named after your app using camelCase. Example: 
-
-> If your app name is my-awesome-app, you have to create a db in your local mongo named myAwesomeApp
-
-- It is necessary to create a collection inside this db called counters with a document for each of the other collections we want to keep track of. Example: 
-
-> Your db myAwesomeApp has 2 collectiones, myAwesomeBooks and myAwesomeSongs. Then you have to create a counters collection with 2 documents, one for each of the collections that our db has:
-
-
-```javascript
-{
-    "_id": "myAwesomeBooks",
-    "seq": 8
-}
-{
-    "_id": "myAwesomeSongs",
-    "seq": 8
-}
-```
-
 
 ### How to use it
 
@@ -73,3 +51,17 @@ mongoUtil.updateLocalDb({prodDbName, prodDbUri, prodDbHost, prodDbUser, prodDbPa
 ```
 
 Here you pass an object with all the info needed to connect to your prod and local dbs. The method receives an object and returns a promise that will resolve successfully if the update took place or  will be rejected if it failed.
+
+
+#### getDb(options)
+
+Receives an options object and return the database connection object or logs an error if no db object is present. 
+
+*Options object props*
+
+**silent** (Boolean): wether or not in should log error when failing
+
+
+#### dropDb(db)
+
+Receives the db connection object and returns a promise. The promise will resolve when all the collections of the db has been dropped. Pending to implement a rejection on failure.
