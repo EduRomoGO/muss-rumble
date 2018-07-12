@@ -65,3 +65,8 @@ Receives an options object and return the database connection object or logs an 
 #### dropDb(db)
 
 Receives the db connection object and returns a promise. The promise will resolve when all the collections of the db has been dropped. Pending to implement a rejection on failure.
+
+
+#### findLastElementAdded(db, collection)
+
+Receives a db and a collection of this db and returns the last element added to this collection.
