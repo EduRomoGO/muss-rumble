@@ -26,13 +26,15 @@ function getUrl () {
 
 function connect(options) {
     return new Promise ((resolve, reject) => {
+        (getDb() !== undefined) ? 
+        resolve(getDb()) :
         MongoClient.connect(getUrl())
             .then((db) => {
                 connectionSuccess(options);
                 DB = db;
                 resolve(db);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => reject(err));
     });
 }
 
