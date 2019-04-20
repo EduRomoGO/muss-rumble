@@ -3,7 +3,6 @@
 const mongoUtil = require('../../mongo/mongoUtil.js');
 const {getFixtures} = require('../../mongo/fixturesUtil.js');
 const chai = require('chai');
-chai.use(require('chai-as-promised'));
 const expect = chai.expect;
 const should = chai.should();
 const sinon = require('sinon');
