@@ -166,8 +166,6 @@ describe('mongoUtil', function() {
             }
 
             function makeAsserts(collections) {
-                 const collectionNames = Object.keys(collections);
-
                 return new Promise((resolve, reject) => {
                     async.each(collections, function(collection, cb) {
                         db.collection(collection.name).find({}).toArray().then((items) => {
