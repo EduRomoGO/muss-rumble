@@ -50,8 +50,8 @@ function connectionSuccess (options) {
     console.log(`Connected successfully to ${getUrl()}`);
 }
 
-function loadFixtures (db) {
-    const loadFixturesJson = getFixtures();
+function loadFixtures (db, fixtures) {
+    const loadFixturesJson = fixtures || getFixtures();
 
     return new Promise ((resolve, reject) => {
         const collections = Object.keys(loadFixturesJson.collections);

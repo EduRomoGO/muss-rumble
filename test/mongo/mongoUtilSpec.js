@@ -187,6 +187,55 @@ describe('mongoUtil', function() {
             .catch(done);
         });
 
+        it('should allow to pass fixtures parameter to be used to load the data', (done) => {
+            const fixtures = {
+                "collections": {
+                  "dolls": [
+                    {
+                      "user": "Peter Parker",
+                      "text": "I like ice cream."
+                    },
+                  ],
+                  "cars": [
+                    {
+                      "user": "Peter Parker",
+                      "text": "I like ice cream."
+                    },
+                  ],
+                  "houses": [{
+                    "_id": "generatedId",
+                    "size": "tall"
+                  }],
+                  "counters": [
+                    { "_id" : "horses", "seq" : 1 },
+                    { "_id" : "turtles", "seq" : 7 }
+                  ]
+                }
+            };
+
+            function makeAsserts(collections) {
+                return new Promise((resolve, reject) => {
+                    async.each(collections, function(collection, cb) {
+                        mongoUtil.getDb().collection(collection.name).find({}).toArray()
+                            .then((items) => {
+                                cb();
+                                return items.length.should.equal(fixtures.collections[collection.name].length);
+                            })
+                            .catch(err => reject(err));
+                    }, function (err) {
+                        if (err) { reject(err); }
+                        resolve();
+                    });
+                });
+            }
+
+            mongoUtil.dropDb(mongoUtil.getDb())
+                .then(() => mongoUtil.loadFixtures(mongoUtil.getDb(), fixtures))
+                .then(() =>  getCollectionList(mongoUtil.getDb()))
+                .then(makeAsserts)
+                .then(() => done())
+                .catch(err => done(err));
+        });
     });
 
     describe('dropDb method', function(done) {
