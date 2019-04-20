@@ -158,7 +158,6 @@ describe('mongoUtil', function() {
         });
 
         it('should load fixtures data to test db', function (done) {
-            const collection = 'bets';
             const fixtures = getFixtures();
             const db = mongoUtil.getDb();
 
