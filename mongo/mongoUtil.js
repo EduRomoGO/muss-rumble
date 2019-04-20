@@ -160,5 +160,6 @@ module.exports = {
     changeGeneratedIdsToSequentialIds,
     getDBName,
     findLastElementAdded,
+    getFixtures,
     updateLocalDb: options => updateLocalDbMethod({...options, connect, dropDb})
 };
