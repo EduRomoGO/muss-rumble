@@ -8,12 +8,23 @@ const async = require('async');
 const {getFixtures} = require('./fixturesUtil.js');
 let DB;
 
+const showErrorMsg = () => console.error('Error: No DB connection is present');
+
 function getDb(options) {
     if (DB === undefined) {
-        const silentOptionPassed = options !== undefined && !options.silent;
+        const thereAreOptions = options !== undefined;
+        let shouldShowErrorMsg = true;
 
-        if (options === undefined || silentOptionPassed) {
-            console.error('Error: No DB connection is present'); 
+        if (thereAreOptions) {   
+            const silentOptionPassed = options.silent !== undefined;
+
+            if (silentOptionPassed) {
+                shouldShowErrorMsg = false;
+            }
+        }
+
+        if (shouldShowErrorMsg) {
+            showErrorMsg();
         }
     }
 
