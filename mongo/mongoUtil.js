@@ -13,15 +13,8 @@ const showErrorMsg = () => console.error('Error: No DB connection is present');
 function getDb(options) {
     if (DB === undefined) {
         const thereAreOptions = options !== undefined;
-        let shouldShowErrorMsg = true;
-
-        if (thereAreOptions) {   
-            const silentOptionPassed = options.silent !== undefined;
-
-            if (silentOptionPassed) {
-                shouldShowErrorMsg = false;
-            }
-        }
+        const silentOptionPassed = options && options.silent !== undefined;
+        const shouldShowErrorMsg = thereAreOptions && silentOptionPassed ? false : true;
 
         if (shouldShowErrorMsg) {
             showErrorMsg();

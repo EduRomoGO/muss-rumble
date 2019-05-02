@@ -118,20 +118,19 @@ describe('mongoUtil', function() {
             expect( consoleErrorSpy.calledWith('Error: No DB connection is present') ).to.be.true;
         });
 
-        it('logs an error message if no connection is available', function () {
+        it('should log an error message if no connection is available', function () {
             const consoleErrorSpy = sandbox.stub(console, 'error');
 
             mongoUtil.getDb();
             expect(consoleErrorSpy.calledOnce).to.be.true;
         });
 
-        it('doesnt log an error message if no connection is available and silent option passed', function () {
+        it('should not log an error message if no connection is available and silent option passed', function () {
             const consoleErrorSpy = sandbox.spy(console, 'error');
 
             mongoUtil.getDb(getConnectionOptions);
             expect(consoleErrorSpy.called).to.be.false;
         });
-
     });
 
     describe('loadFixtures', function(done) {
