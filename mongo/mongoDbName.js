@@ -13,7 +13,16 @@ function getAppName () {
 function getDBName() {
     const appName = getAppName();
     // const {appName} = require('./app.config.js');
-    return camelCase(appName);
+    let n = camelCase(appName);
+
+    console.log('process.env.NODE_ENV');
+    console.log(process.env.NODE_ENV);
+    if (process.env.NODE_ENV === 'test') {
+      n = n + 'Test';
+    }
+
+    return n;
+    // return camelCase(appName);
 }
 
 module.exports = {getDBName};
