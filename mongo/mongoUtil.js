@@ -30,7 +30,7 @@ function getUrl () {
 
 function connect(options) {
     return new Promise ((resolve, reject) => {
-        (getDb() !== undefined) ? 
+        (getDb({silent: true}) !== undefined) ?
         resolve(getDb()) :
         MongoClient.connect(getUrl())
             .then((db) => {
@@ -129,8 +129,8 @@ function changeGeneratedIdsToSequentialIds (db, collection) {
             });
         });
     }
-    
-    function getCollectionItems () {        
+
+    function getCollectionItems () {
         return db.collection(collection).find().toArray();
     }
 
@@ -139,7 +139,7 @@ function changeGeneratedIdsToSequentialIds (db, collection) {
         getCollectionItems()
         .then(updateItems)
         .then(resolve)
-        .catch(err => reject(err));    
+        .catch(err => reject(err));
     });
 }
 
