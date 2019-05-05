@@ -10,7 +10,7 @@ function resetEnv() {
 
 describe(`mongoDbName getDBName method should return the db name for local environments (test/development) based on:
           - the name of the app set in package.json
-          - current env (test/development)`,() => {
+          - current env (test/development/production)`,() => {
 
   afterEach(resetEnv);
 
@@ -22,5 +22,10 @@ describe(`mongoDbName getDBName method should return the db name for local envir
   it('in development env, it returns development db name', function () {
     process.env.NODE_ENV = 'development';
     getDBName().should.equal('mussRumble');
+  });
+
+  it('in production env, it returns production db name', function () {
+    process.env.NODE_ENV = 'production';
+    getDBName().should.equal('mussRumbleProduction');
   });
 });

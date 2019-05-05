@@ -7,6 +7,7 @@ const {getDBName} = require('./mongoDbName.js');
 const async = require('async');
 const {getFixtures} = require('./fixturesUtil.js');
 let DB;
+let dbClient;
 
 const showErrorMsg = () => console.error('Error: No DB connection is present');
 
@@ -24,6 +25,10 @@ function getDb(options) {
     return DB;
 }
 
+const getDbClient = () => {
+  return dbClient;
+}
+
 function getUrl () {
     return MongoUrl.get();
 }
@@ -33,10 +38,11 @@ function connect(options) {
         (getDb({silent: true}) !== undefined) ?
         resolve(getDb()) :
         MongoClient.connect(getUrl())
-            .then((db) => {
+            .then(client => {
                 connectionSuccess(options);
-                DB = db;
-                resolve(db);
+                dbClient = client;
+                DB = client.db(getDBName());
+                resolve(DB);
             })
             .catch((err) => reject(err));
     });
@@ -81,8 +87,8 @@ function dropDb (db) {
 
 function closeConnection (options) {
     return new Promise((resolve, reject) => {
-        if (getDb(options) !== undefined) {
-            getDb().close(true).then(() => {
+        if (getDbClient(options) !== undefined) {
+            getDbClient().close(true).then(() => {
                 DB = undefined;
                 resolve();
             });

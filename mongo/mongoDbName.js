@@ -15,7 +15,13 @@ function getAppName() {
 function getDBName() {
   let appNameCamelCase = camelCase(getAppName());
 
-  return `${appNameCamelCase}${process.env.NODE_ENV === 'test' ? 'Test' : ''}`;
+  const dbNameSuffix = {
+    test: 'Test',
+    development: '',
+    production: 'Production',
+  };
+
+  return `${appNameCamelCase}${dbNameSuffix[process.env.NODE_ENV]}`;
 }
 
 module.exports = { getDBName };
