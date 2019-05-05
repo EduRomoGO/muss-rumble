@@ -91,3 +91,39 @@ To use an script simply add your own script to your package.json referencing the
 ```
 
 This comes in handy to perform some operations on db through npm so there is no need to open your GUI or mongo console.
+
+
+### Scripts for robomongo (or any other gui)
+
+```js
+// This ones shows size stats for each document in a collection
+db.cards.find().forEach(function(obj)
+{
+  const size = Object.bsonsize(obj);
+
+  const stats = {
+    '_id': obj._id, 
+    'bytes': size, 
+    'KB': Math.round(size/(1024)), 
+    'MB': Math.round(size/(1024*1024))
+  };
+
+  print(stats);
+});
+```
+
+```js
+// This one finds the largest document in a collection and prints its id and size
+let max = {
+    id: 0,
+    size: 0,
+};
+db.cards.find().forEach(function(obj) {
+    const curr = Object.bsonsize(obj); 
+    if(max.size < curr) {
+        max.size = curr;
+        max.id = obj._id;
+    } 
+})
+print(max);
+```
