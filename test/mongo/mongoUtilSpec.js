@@ -97,7 +97,7 @@ describe('mongoUtil', function() {
     });
 
     describe('getDb method', function () {
-        
+
         afterEach(function () {
             closeConnection();
             sandbox.restore();
@@ -142,7 +142,7 @@ describe('mongoUtil', function() {
         beforeEach(function (done) {
             dropDb(mongoUtil.getDb()).then(() => done());
         });
-    
+
         // Pending cause its difficoult to test it and its not worth it
         xit('should return an error if no fixtures data is found', function (done) {
 
@@ -340,7 +340,7 @@ describe('mongoUtil', function() {
                 return mongoUtil.changeGeneratedIdsToSequentialIds(db, collection);
             }
 
-            function getCollectionItems () {        
+            function getCollectionItems () {
                 return db.collection(collection).find().toArray();
             }
 
@@ -355,9 +355,9 @@ describe('mongoUtil', function() {
             .then(() => done())
             .catch(done);
         });
-        
+
     });
-    
+
     describe('findLastElementAdded', () => {
 
         before(function (done) {

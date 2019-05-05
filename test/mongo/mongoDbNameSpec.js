@@ -8,7 +8,7 @@ function resetEnv() {
   process.env.NODE_ENV = 'test';
 }
 
-describe.only(`mongoDbName getDBName method should return the db name for local environments (test/development) based on:
+describe(`mongoDbName getDBName method should return the db name for local environments (test/development) based on:
           - the name of the app set in package.json
           - current env (test/development)`,() => {
 
