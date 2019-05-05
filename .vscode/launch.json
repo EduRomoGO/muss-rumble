@@ -17,6 +17,24 @@
             "env": { "NODE_ENV": "test", "MONGODB_URI": "mongodb://localhost:27017/mussRumbleProduction"}
         },
         {
+          "type": "node",
+          "request": "launch",
+          "name": "Other Mocha Tests (Working better)",
+          "runtimeExecutable": "/Users/EduRomoGO/.nvm/versions/node/v10.15.3/bin/node",
+          "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+          "args": [
+              "test/**/*.js",
+              "--no-timeouts",
+              "--recursive",
+              "-u",
+              "tdd",
+              "--timeout",
+              "999999",
+              "--colors",
+          ],
+          "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Iniciar programa",
