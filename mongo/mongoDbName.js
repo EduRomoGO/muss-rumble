@@ -2,27 +2,20 @@
 
 const camelCase = require('camel-case');
 
-function getAppName () {
-    const path = process.cwd();
-    const pjsonPath = path + '/package.json';
-    var pjson = require(pjsonPath);
+const getPackageJsonData = () => {
+  const pjsonPath = process.cwd() + '/package.json';
 
-    return pjson.name;
+  return require(pjsonPath);
+}
+
+function getAppName() {
+  return getPackageJsonData().name;
 }
 
 function getDBName() {
-    const appName = getAppName();
-    // const {appName} = require('./app.config.js');
-    let n = camelCase(appName);
+  let appNameCamelCase = camelCase(getAppName());
 
-    console.log('process.env.NODE_ENV');
-    console.log(process.env.NODE_ENV);
-    if (process.env.NODE_ENV === 'test') {
-      n = n + 'Test';
-    }
-
-    return n;
-    // return camelCase(appName);
+  return `${appNameCamelCase}${process.env.NODE_ENV === 'test' ? 'Test' : ''}`;
 }
 
-module.exports = {getDBName};
+module.exports = { getDBName };
