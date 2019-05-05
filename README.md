@@ -6,6 +6,7 @@ This library includes a miscellanea of utilities:
 - An utility to encrypt/decrypt data easily
 - A function to transform a number from decimal to binary
 - A function to update the data of a json file with more json data
+- Provides some useful node standalone scripts that you can use directly with npm
 
 To install it simply type
 
@@ -75,3 +76,18 @@ Receives a db and a collection of this db and returns the last element added to 
 #### changeGeneratedIdsToSequentialIds(db, collection)
 
 Receives a db and a collection and return a promise. The promise will resolve after it replaces all the generated ids by sequential ids or is rejected if something went wrong.
+
+
+### Scripts
+
+You can find all available scripts navigating to `node_modules/muss-rumble/mongo/scripts/`  
+
+To use an script simply add your own script to your package.json referencing the `muss-rumble` script you want to use like this:
+
+```js
+  "scripts": {
+    "yourScriptName": "node ./node_modules/muss-rumble/mongo/scripts/someScriptName.js",
+  },
+```
+
+This comes in handy to perform some operations on db through npm so there is no need to open your GUI or mongo console.
