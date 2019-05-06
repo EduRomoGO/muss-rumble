@@ -12,16 +12,16 @@ function getAppName() {
   return getPackageJsonData().name;
 }
 
-function getDBName() {
-  let appNameCamelCase = camelCase(getAppName());
+const getDbLocalBaseName = () => camelCase(getAppName());
 
-  const dbNameSuffix = {
-    test: 'Test',
-    development: '',
-    production: 'Production',
+function getDBName() {
+  const nameEnvMap = {
+    test: () => `${getDbLocalBaseName()}Test`,
+    development: () => getDbLocalBaseName(),
+    production: () => process.env.DB_NAME,
   };
 
-  return `${appNameCamelCase}${dbNameSuffix[process.env.NODE_ENV]}`;
+  return nameEnvMap[process.env.NODE_ENV]();
 }
 
 module.exports = { getDBName };

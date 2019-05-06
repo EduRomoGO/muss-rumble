@@ -67,9 +67,10 @@ describe('mongoUtil', function() {
 
         it('connects to production db if running on production env', function (done) {
             setEnv('production');
+            process.env.DB_NAME = 'mussRumbleProductionName';
 
             mongoUtil.connect(connectionOptions).then(function(db) {
-                expect(db.s.databaseName).to.equal('mussRumbleProduction');
+                expect(db.s.databaseName).to.equal('mussRumbleProductionName');
             })
             .then(() => done(), done);
         });

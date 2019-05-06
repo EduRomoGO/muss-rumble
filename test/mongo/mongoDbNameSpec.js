@@ -8,24 +8,28 @@ function resetEnv() {
   process.env.NODE_ENV = 'test';
 }
 
-describe(`mongoDbName getDBName method should return the db name for local environments (test/development) based on:
-          - the name of the app set in package.json
-          - current env (test/development/production)`,() => {
+describe(`mongoDbName getDBName method`,() => {
 
   afterEach(resetEnv);
 
-  it('in test env, it returns test db name', function () {
-    process.env.NODE_ENV = 'test';
-    getDBName().should.equal('mussRumbleTest');
+  describe('for local environments should return the db name based on the name of the app (from package.json) and current env', () => {
+    it('in test env, it returns test db name', function () {
+      process.env.NODE_ENV = 'test';
+      getDBName().should.equal('mussRumbleTest');
+    });
+
+    it('in development env, it returns development db name', function () {
+      process.env.NODE_ENV = 'development';
+      getDBName().should.equal('mussRumble');
+    });
   });
 
-  it('in development env, it returns development db name', function () {
-    process.env.NODE_ENV = 'development';
-    getDBName().should.equal('mussRumble');
-  });
+  describe('for production environment', () => {
+    it('should return the test db name present in env var DB_NAME', function () {
+      process.env.NODE_ENV = 'production';
+      process.env.DB_NAME = 'mussRumbleProductionName';
 
-  it('in production env, it returns production db name', function () {
-    process.env.NODE_ENV = 'production';
-    getDBName().should.equal('mussRumbleProduction');
+      getDBName().should.equal('mussRumbleProductionName');
+    });
   });
 });

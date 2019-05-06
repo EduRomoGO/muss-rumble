@@ -16,9 +16,9 @@ db.cards.find().forEach(function(obj)
   var size = Object.bsonsize(obj);
   var stats =
   {
-    '_id': obj._id, 
-    'bytes': size, 
-    'KB': Math.round(size/(1024)), 
+    '_id': obj._id,
+    'bytes': size,
+    'KB': Math.round(size/(1024)),
     'MB': Math.round(size/(1024*1024))
   };
   print(stats);
@@ -29,10 +29,10 @@ var max = {
     size: 0,
 };
 db.cards.find().forEach(function(obj) {
-    var curr = Object.bsonsize(obj); 
+    var curr = Object.bsonsize(obj);
     if(max.size < curr) {
         max.size = curr;
         max.id = obj._id;
-    } 
+    }
 })
 print(max);
