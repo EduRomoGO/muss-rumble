@@ -15,13 +15,13 @@ function getAppName() {
 const getDbLocalBaseName = () => camelCase(getAppName());
 
 function getDBName() {
-  const nameEnvMap = {
+  const dbNameEnvMap = {
     test: () => `${getDbLocalBaseName()}Test`,
     development: () => getDbLocalBaseName(),
     production: () => process.env.DB_NAME,
   };
 
-  return nameEnvMap[process.env.NODE_ENV]();
+  return dbNameEnvMap[process.env.NODE_ENV]();
 }
 
 module.exports = { getDBName };
