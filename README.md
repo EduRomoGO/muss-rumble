@@ -25,6 +25,10 @@ Import the module:
 const { mongoUtil } = require('muss-rumble');
 ```
 
+**Important note**
+
+  For production env, the lib assumes that you have defined a DB_NAME env var that has the name of the db you have set in that environment.
+
 ### Helpers
 
 #### getDBName()
