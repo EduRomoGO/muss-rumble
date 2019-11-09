@@ -160,6 +160,8 @@ function findLastElementAdded(db, collection) {
     return db.collection(collection).aggregate(query).toArray();
 }
 
+const restoreDb = options => restoreDbMethod({...options, connect, dropDb, getDBName});
+
 module.exports = {
     getDb,
     getUrl,
@@ -173,7 +175,7 @@ module.exports = {
     getDBName,
     findLastElementAdded,
     getFixtures,
-    updateLocalDb: options => updateLocalDbMethod({...options, connect, dropDb}),
     dumpDb,
-    restoreDb: options => restoreDbMethod({...options, connect, dropDb, getDBName}),
+    restoreDb,
+    updateLocalDb: options => updateLocalDbMethod({...options, dumpDb, restoreDb}),
 };

@@ -3,7 +3,7 @@
 const shell = require('shelljs');
 const fs = require('fs');
 
-const getCollections = (dumpLocation) => new Promise((resolve, reject) => {
+const getCollectionNames = (dumpLocation) => new Promise((resolve, reject) => {
   fs.readdir(dumpLocation, (err, files) => {
     if (err) {
       console.log(`err reading dumplocation ${dumpLocation} folder`, err);
@@ -14,7 +14,7 @@ const getCollections = (dumpLocation) => new Promise((resolve, reject) => {
   });
 });
 
-module.exports = async ({restoreLocalDb, dumpLocation, getDBName, connect, dropDb}) => {
+module.exports = async ({restoreLocalDb, dumpLocation, getDBName, connect, dropDb, collectionNames}) => {
   function restoreAll(collectionNames) {
     console.info('restoring collections');
     collectionNames.forEach(restore);
@@ -45,8 +45,9 @@ module.exports = async ({restoreLocalDb, dumpLocation, getDBName, connect, dropD
   try {
     const db = await connect();
     await dropDb(db);
-    const collections = await getCollections(dumpLocation);
-    restoreAll(collections);
+
+    collectionNames = collectionNames || await getCollectionNames(dumpLocation);
+    restoreAll(collectionNames);
   } catch (err) {
     console.log(`error while restoring db ${getDBName()}`);
   }
