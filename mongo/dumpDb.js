@@ -14,9 +14,9 @@ const getDbCollections = (dbClient, dbName) => {
 const getCollectionNames = collections => collections.map(collection => collection.s.name);
 
 
-module.exports = async (
-  { dbName, dbUri, dbHost, dbUser, dbPass, dumpLocation }
-) => {
+module.exports = async ({ dbData, dumpLocation }) => {
+  const { dbName, dbUri, dbHost, dbUser, dbPass } = dbData;
+
   try{
 
     function dumpAll (collectionNames) {
