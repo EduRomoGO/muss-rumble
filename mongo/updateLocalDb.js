@@ -15,7 +15,7 @@ const getCollectionNames = collections => collections.map(collection => collecti
 module.exports = ({prodDbName, prodDbUri, prodDbHost, prodDbUser, prodDbPass, dumpLocation, localDbName, connect, dropDb}) => new Promise((resolve, reject) => {
 
     function dumpAll (collectionNames) {
-      console.log('dumping collections');
+      console.info('dumping collections');
       collectionNames.forEach(dump);
     }
 
@@ -29,6 +29,7 @@ module.exports = ({prodDbName, prodDbUri, prodDbHost, prodDbUser, prodDbPass, du
     }
 
     function restoreAll(collectionNames) {
+        console.info('restoring collections');
         collectionNames.forEach(restore);
     }
 
