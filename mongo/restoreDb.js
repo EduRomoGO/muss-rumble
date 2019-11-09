@@ -14,20 +14,16 @@ const getCollectionNames = (dumpLocation) => new Promise((resolve, reject) => {
   });
 });
 
-module.exports = async ({restoreLocalDb, dumpLocation, getDBName, connect, dropDb, collectionNames}) => {
+module.exports = async ({ dumpLocation, getDBName, connect, dropDb, collectionNames, dbData}) => {
   function restoreAll(collectionNames) {
     console.info('restoring collections');
     collectionNames.forEach(restore);
   }
 
   const buildRestoreCommand = (collectionName) => {
-    let mongoRestore;
+    const { dbHost = '127.0.0.1', dbName, dbUser, dbPass } = dbData;
 
-    if (restoreLocalDb) {
-      mongoRestore = `mongorestore --host=127.0.0.1 --port 27017 --collection ${collectionName} --db ${getDBName()} ${dumpLocation}/${collectionName}.bson`;
-    }
-
-    return mongoRestore;
+    return `mongorestore -h ${dbHost} -d ${dbName || getDBName()} ${dbUser ? `-u ${dbUser}` : ''} ${dbPass ? `-p ${dbPass}` : ''} -c ${collectionName} ${dumpLocation}/${collectionName}.bson`;
   }
 
   const runRestoreCommand = restoreCommand => {
