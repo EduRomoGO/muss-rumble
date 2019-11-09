@@ -3,6 +3,8 @@
 const MongoClient = require('mongodb').MongoClient;
 const MongoUrl = require('./MongoUrl.js');
 const updateLocalDbMethod = require('./updateLocalDb.js');
+const dumpDb = require('./dumpDb.js');
+const restoreDbMethod = require('./restoreDb.js');
 const {getDBName} = require('./mongoDbName.js');
 const async = require('async');
 const {getFixtures} = require('./fixturesUtil.js');
@@ -171,5 +173,7 @@ module.exports = {
     getDBName,
     findLastElementAdded,
     getFixtures,
-    updateLocalDb: options => updateLocalDbMethod({...options, connect, dropDb})
+    updateLocalDb: options => updateLocalDbMethod({...options, connect, dropDb}),
+    dumpDb,
+    restoreDb: options => restoreDbMethod({...options, connect, dropDb, getDBName}),
 };
