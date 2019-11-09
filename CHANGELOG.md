@@ -2,6 +2,11 @@ CHANGELOG
 =========
 
 
+3.21.1 / 2019-11-09
+-------------------
+
+  * Feat: more flexibility offered for dumping/restoring dbs
+
 3.20.1 / 2019-11-09
 -------------------
 
