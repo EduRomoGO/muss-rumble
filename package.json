@@ -1,6 +1,6 @@
 {
   "name": "muss-rumble",
-  "version": "3.21.0",
+  "version": "3.22.0",
   "description": "some not common utils",
   "main": "index.js",
   "scripts": {
