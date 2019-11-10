@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+3.22.0 / 2019-11-10
+-------------------
+
+  * Feat: more flexibility offered for dumping
 
 3.21.1 / 2019-11-09
 -------------------
