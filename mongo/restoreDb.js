@@ -14,7 +14,7 @@ const getCollectionNames = (dumpLocation) => new Promise((resolve, reject) => {
   });
 });
 
-module.exports = async ({ dumpLocation, getDBName, connect, dropDb, collectionNames, dbData}) => {
+module.exports = async ({ dumpLocation, connect, dropDb, collectionNames, dbData}) => {
   function restoreAll(collectionNames) {
     console.info('restoring collections');
     collectionNames.forEach(restore);
@@ -23,7 +23,7 @@ module.exports = async ({ dumpLocation, getDBName, connect, dropDb, collectionNa
   const buildRestoreCommand = (collectionName) => {
     const { dbHost = '127.0.0.1', dbName, dbUser, dbPass } = dbData;
 
-    return `mongorestore -h ${dbHost} -d ${dbName || getDBName()} ${dbUser ? `-u ${dbUser}` : ''} ${dbPass ? `-p ${dbPass}` : ''} -c ${collectionName} ${dumpLocation}/${collectionName}.bson`;
+    return `mongorestore -h ${dbHost} -d ${dbName} ${dbUser ? `-u ${dbUser}` : ''} ${dbPass ? `-p ${dbPass}` : ''} -c ${collectionName} ${dumpLocation}/${collectionName}.bson`;
   }
 
   const runRestoreCommand = restoreCommand => {
@@ -45,6 +45,6 @@ module.exports = async ({ dumpLocation, getDBName, connect, dropDb, collectionNa
     collectionNames = collectionNames || await getCollectionNames(dumpLocation);
     restoreAll(collectionNames);
   } catch (err) {
-    console.log(`error while restoring db ${getDBName()}`);
+    console.log(`error while restoring db ${dbName}`);
   }
 };

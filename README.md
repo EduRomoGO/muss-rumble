@@ -25,26 +25,14 @@ Import the module:
 const { mongoUtil } = require('muss-rumble');
 ```
 
-**Important note**
-
-  For production env, the lib assumes that you have defined a DB_NAME env var that has the name of the db you have set in that environment.
-
 ### Helpers
-
-#### getDBName()
-
-Returns the local db name
-
-```javascript
-mongoUtil.getDBName()
-```
 
 #### updateLocalDb()
 
 Method to populate local db with prod db data. It will connect to prod db, dump all the data on your local machine and then update local db with this data. Note that this is a **destructive** operation and can not be undone. All the data in your local machine will be overriden by the data on prod db. Below there is an usage example:
 
 ```javascript
-const localDbName = mongoUtil.getDBName();
+const localDbName = 'localDbName';
 const prodDbName = 'prodDbName';
 const prodDbHost = 'prodHost.mlab.com:27444';
 const prodDbUser = 'eduromogo';

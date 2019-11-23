@@ -1,6 +1,6 @@
 'use strict';
 
-const mongoUtil = require('../../mongo/mongoUtil.js');
+const mUtil = require('../../mongo/mongoUtil.js');
 const {getFixtures} = require('../../mongo/fixturesUtil.js');
 const chai = require('chai');
 const expect = chai.expect;
@@ -9,8 +9,9 @@ const sinon = require('sinon');
 const sandbox = sinon.sandbox.create();
 const async = require('async');
 const connectionOptions = {silent: true};
-const getConnectionOptions = {silent: true};
 
+const dbName = 'muss-rumble-test';
+const mongoUtil = mUtil({dbName, dbUrl: 'mongodb://localhost:27017/muss-rumble-test'});
 
 function setEnv(env) {
     process.env.NODE_ENV = env;
@@ -21,7 +22,7 @@ function resetEnv() {
 }
 
 function closeConnection() {
-    return mongoUtil.closeConnection(getConnectionOptions);
+    return mongoUtil.closeConnection(connectionOptions);
 }
 
 function connectDb(done) {
@@ -47,30 +48,11 @@ describe('mongoUtil', function() {
             sandbox.restore();
         });
 
-        it('connects to test db if running on test env', function (done) {
+        it('connects to db name passed', function (done) {
             setEnv('test');
 
             mongoUtil.connect(connectionOptions).then(function(db) {
-                expect(db.s.databaseName).to.equal('mussRumbleTest');
-            })
-            .then(() => done(), done);
-        });
-
-        it('connects to development db if running on development env', function (done) {
-            setEnv('development');
-
-            mongoUtil.connect(connectionOptions).then(function(db) {
-                expect(db.s.databaseName).to.equal('mussRumble');
-            })
-            .then(() => done(), done);
-        });
-
-        it('connects to production db if running on production env', function (done) {
-            setEnv('production');
-            process.env.DB_NAME = 'mussRumbleProductionName';
-
-            mongoUtil.connect(connectionOptions).then(function(db) {
-                expect(db.s.databaseName).to.equal('mussRumbleProductionName');
+                expect(db.s.databaseName).to.equal(dbName);
             })
             .then(() => done(), done);
         });
@@ -106,7 +88,7 @@ describe('mongoUtil', function() {
 
         it('should return the db if the app has established a connection', function (done) {
             mongoUtil.connect(connectionOptions).then(function(db) {
-                mongoUtil.getDb().s.databaseName.should.equal('mussRumbleTest');
+                mongoUtil.getDb().s.databaseName.should.equal(dbName);
             })
             .then(() => done(), done);
         });
@@ -129,7 +111,7 @@ describe('mongoUtil', function() {
         it('should not log an error message if no connection is available and silent option passed', function () {
             const consoleErrorSpy = sandbox.spy(console, 'error');
 
-            mongoUtil.getDb(getConnectionOptions);
+            mongoUtil.getDb(connectionOptions);
             expect(consoleErrorSpy.called).to.be.false;
         });
     });
@@ -288,7 +270,7 @@ describe('mongoUtil', function() {
 
         it('should close current database connection', function (done) {
             function assert() {
-                const db = mongoUtil.getDb(getConnectionOptions);
+                const db = mongoUtil.getDb(connectionOptions);
                 return expect(db).to.eql(undefined);
             }
 
