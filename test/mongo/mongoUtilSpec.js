@@ -13,6 +13,7 @@ const connectionOptions = {silent: true};
 const dbName = 'muss-rumble-test';
 const mongoUtil = mUtil({dbName, dbUrl: 'mongodb://localhost:27017/muss-rumble-test'});
 
+
 function setEnv(env) {
     process.env.NODE_ENV = env;
 }
@@ -38,8 +39,24 @@ function dropDb(db) {
 }
 
 
-describe('mongoUtil', function() {
+describe('mongoUtil function', () => {
+  it('should return an error if no dbName param has been pased', () => {
+    const wrap = () => mUtil();
+    expect(wrap).to.throw();
+  });
 
+  it('should return an error if no dbUrl param has been pased', () => {
+    const wrap = () => mUtil();
+    expect(wrap).to.throw();
+  });
+
+  it('should not return an error if dbName and dbUrl params has been pased', () => {
+    const wrap = () => mUtil({ dbName: 'fake-name', dbUrl: 'fake-url'});
+    expect(wrap).to.not.throw();
+  });
+});
+
+describe('mongoUtil methods', function() {
     describe('connect method', function() {
 
         afterEach(function () {

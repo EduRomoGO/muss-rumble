@@ -15,3 +15,12 @@ CHANGELOG
 -------------------
 
   * Fix: updateLocalDb was using the way of connecting to db of an older version of mongodb
+
+4.0.0 / 2019-11-23
+-------------------
+
+  * Breaking changes: 
+    - Now mongoUtil is exported as a function that receives a config object which should include dbName and dbUrl
+    - Removed getUrl/getDbName methods for obvious reasons
+  
+  * Refactor: Reorganize files

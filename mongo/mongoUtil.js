@@ -9,7 +9,11 @@ const {getFixtures} = require('./fixturesUtil.js');
 let DB;
 let dbClient;
 
-module.exports = ({dbName, dbUrl}) => {
+module.exports = ({dbName, dbUrl} = {}) => {
+
+  if(!dbName) {
+    throw new Error();
+  }
 
   const showErrorMsg = () => console.error('Error: No DB connection is present');
 
