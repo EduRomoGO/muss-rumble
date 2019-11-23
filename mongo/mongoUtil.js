@@ -9,10 +9,19 @@ const {getFixtures} = require('./fixturesUtil.js');
 let DB;
 let dbClient;
 
-module.exports = ({dbName, dbUrl} = {}) => {
+module.exports = config => {
+  if(!config) {
+    throw new Error('mongoUtil config must not be undefined');
+  }
+
+  const { dbName, dbUrl} = config;
 
   if(!dbName) {
-    throw new Error();
+    throw new Error('mongoUtil dbName config prop is required');
+  }
+
+  if(!dbUrl) {
+    throw new Error('mongoUtil dbUrl config prop is required');
   }
 
   const showErrorMsg = () => console.error('Error: No DB connection is present');

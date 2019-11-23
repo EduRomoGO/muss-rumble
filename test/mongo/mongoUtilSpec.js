@@ -39,15 +39,20 @@ function dropDb(db) {
 }
 
 
-describe('mongoUtil function', () => {
-  it('should return an error if no dbName param has been pased', () => {
+describe.only('mongoUtil function', () => {
+  it('should return an error if no config obj has been pased', () => {
     const wrap = () => mUtil();
-    expect(wrap).to.throw();
+    expect(wrap).to.throw('mongoUtil config must not be undefined');
+  });
+
+  it('should return an error if no dbName param has been pased', () => {
+    const wrap = () => mUtil({ dbUrl: 'fake-url' });
+    expect(wrap).to.throw('mongoUtil dbName config prop is required');
   });
 
   it('should return an error if no dbUrl param has been pased', () => {
-    const wrap = () => mUtil();
-    expect(wrap).to.throw();
+    const wrap = () => mUtil({ dbName: 'fake-name' });
+    expect(wrap).to.throw('mongoUtil dbUrl config prop is required');
   });
 
   it('should not return an error if dbName and dbUrl params has been pased', () => {
