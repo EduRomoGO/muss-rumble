@@ -24,3 +24,8 @@ CHANGELOG
     - Removed getUrl/getDbName methods for obvious reasons
   
   * Refactor: Reorganize files
+
+4.0.1 / 2019-11-23
+-------------------
+
+  * Fix: Send correct error messages for mongoUtil inicialization
