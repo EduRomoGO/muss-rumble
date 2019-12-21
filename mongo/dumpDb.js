@@ -26,7 +26,11 @@ module.exports = async ({ dbData, dumpLocation }) => {
     function dump(collectionName) {
       const mongoDump = `mongodump ${dbHost ? `-h ${dbHost}` : ''} -d ${dbName} -c ${collectionName} ${dbUser ? `-u ${dbUser}` : ''} ${dbPass ? `-p ${dbPass}` : ''} -o ${dumpLocation}`;
 
-      if (shell.exec(mongoDump).code !== 0) {
+      const dumpResult = shell.exec(mongoDump);
+      if (!dumpResult || dumpResult.code !== 0) {
+        console.log(`Error while dumping ${collectionName} collection`);
+        console.log('mongoDump command:');
+        console.log(mongoDump);
         shell.echo(`Error: mongo dump failed for collection ${collectionName}`);
         shell.exit(1);
       }
