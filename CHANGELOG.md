@@ -33,4 +33,9 @@ CHANGELOG
 4.0.2 / 2019-12-21
 -------------------
 
-  * Patch: Better info for dumping errors
+  * Refactor: Better info for dumping errors
+
+4.0.3 / 2019-12-21
+-------------------
+
+  * Docs: Update changelog
