@@ -29,3 +29,8 @@ CHANGELOG
 -------------------
 
   * Fix: Send correct error messages for mongoUtil inicialization
+
+4.0.2 / 2019-12-21
+-------------------
+
+  * Patch: Better info for dumping errors
