@@ -2,7 +2,7 @@
 
 const chai = require("chai");
 const should = chai.should();
-const { readDir } = require("../../src/utils/read-dir");
+const { readDir } = require("../../src/utils/traverse");
 
 describe("readDir module", function () {
   it("returns current", function () {
