@@ -2,6 +2,8 @@ const { storeJsonInFile } = require("./store-json-in-file");
 const { traverse } = require("./traverse");
 const util = require("util");
 
+// TODO: Pendiente de terminar, no funciona
+
 function getIndexFiles(files, result = []) {
   files.forEach((file) => {
     if (file.type === "dir") {
