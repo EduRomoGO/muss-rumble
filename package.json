@@ -4,7 +4,8 @@
   "description": "some not common utils",
   "main": "index.js",
   "scripts": {
-    "test": "env NODE_ENV=test MONGODB_URI=mongodb://localhost:27017/mussRumbleProduction mocha --recursive -w"
+    "test": "env NODE_ENV=test MONGODB_URI=mongodb://localhost:27017/mussRumbleProduction mocha --recursive -w",
+    "test-only": "mocha ./test/read-dir/read-dir.test.js -w"
   },
   "keywords": [
     "binary"
