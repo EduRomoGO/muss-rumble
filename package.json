@@ -21,7 +21,7 @@
     "minimist": "^1.2.0",
     "mocha": "^5.2.0",
     "mongodb": "3.0.0",
-    "shelljs": "^0.7.8"
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
     "sinon": "^2.3.4"
